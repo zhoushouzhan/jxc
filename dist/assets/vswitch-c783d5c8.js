@@ -1,0 +1,1 @@
+import{$ as o,d as r,v as l,a0 as t}from"./index-ffc5c309.js";const d={__name:"vswitch",props:["case"],setup(a){const e=a,s=o(),c=()=>{if(s[e.case])return console.log(s[e.case]()),t("div",{class:"flex"},{default:()=>[s[e.case]()]});if(s.default)return t("div",{},{default:()=>[s.default()]})};return(n,u)=>(r(),l(c))}};export{d as default};

@@ -1,0 +1,1 @@
+import{_ as s}from"./baklist-1469f43b.js";import{s as m,r as n,p as c,d as r,v as p,x as i}from"./index-ffc5c309.js";const f={__name:"index",setup(_){const t=m(s),a=n({data:{}}),o=e=>{a.data=e.item?e.item:{},t.value=e.to};return c("getTb",{item:a}),(e,l)=>(r(),p(i(t.value),{onJumpCom:o},null,32))}};export{f as default};
