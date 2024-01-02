@@ -22,6 +22,7 @@
                 <div v-if="formData.godown_id">
                     <ypinput v-model="barcode" disabled="" placeholder="录入条码" @keyup.enter="get_goods"></ypinput>
                 </div>
+ 
                 <div v-if="formData.bill.length">
                     <table class="yp-table">
                         <thead>
@@ -97,6 +98,9 @@
        await getList(n)
     })
     const get_goods=async()=>{
+        if(barcode.value==''){
+            return
+        }
         const resp= await getData('goods/details',{code:barcode.value})
         if(resp.code==1){
             let item={
@@ -113,8 +117,9 @@
                 code:resp.data.code
             }
             formData.bill.unshift(item)
+            barcode.value=''
         }
-        barcode.value=''
+        
     }
 
     const removeitem=(index)=>{

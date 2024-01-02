@@ -1,7 +1,7 @@
 <!--
  * @Author: 一品网络技术有限公司
  * @Date: 2022-06-22 12:07:53
- * @LastEditTime: 2022-10-27 09:17:38
+ * @LastEditTime: 2024-01-01 10:33:18
  * @FilePath: \vue3\src\pages\welcome.vue
  * @Description:
  * 联系QQ:58055648
@@ -9,7 +9,7 @@
 -->
 <template>
     <div class="p-2 grid grid-cols-6 gap-5" v-if="isLoad">
-        <div class="bg-blue-600 text-white rounded-lg shadow flex items-center">
+        <div class="bg-lan-300 text-white rounded-lg shadow flex items-center">
             <div>
                 <i class="ri-database-2-fill ri-5x"></i>
             </div>

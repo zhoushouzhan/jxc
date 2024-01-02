@@ -1,93 +1,104 @@
+<!--
+ * @Author: 一品技术 5166651888@163.com
+ * @Date: 2023-12-31 19:38:15
+ * @LastEditors: 一品技术 5166651888@163.com
+ * @LastEditTime: 2024-01-02 13:53:34
+ * @FilePath: /jxcui/src/pages/login.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
-    <div class="w-full h-full flex justify-center text-hui-300 select-none">
-        <div class="lg:w-80 max-lg:w-full px-2 lg:translate-y-52 max-lg:translate-y-20 space-y-2">
+    <div class="w-full h-full flex justify-center select-none">
+        <div class="lg:w-[500px] max-lg:w-full space-y-2 absolute left-1/2 -translate-x-1/2 top-20 bg-white p-10 bg-opacity-65 rounded-lg">
             <div class="flex justify-center">
                 <img src="@/assets/logo.png" class="h-16 object-cover">
             </div>
-            <div class="text-center font-bold">泽玛珠宝</div>
+            <div class="text-center font-bold text-hui-300">泽玛珠宝</div>
             <div class="py-2"></div>
-            <div>
-                <input type="text" maxlength="18" placeholder="请输入账号" class="yp-input" v-model="login.username">
-                <div :class="errors.username.classname">{{errors.username.message}}</div>
-            </div>
-            <div>
-                <input type="password" maxlength="18" placeholder="请输入密码" class="yp-input" v-model="login.password" autocomplete>
-                <div :class="errors.password.classname">{{errors.password.message}}</div>
-            </div>
+          
+              <ypinput v-model="formData.username" :errormsg="formVerify.username" maxlength="22"  placeholder="输入账号">
+                <template v-slot:prefix>
+                  <div class="text-hui-100 pr-1">
+                    <i class="ri-user-fill ri-lg"></i>
+                  </div>
+                </template>
+              </ypinput>
+              <ypinput type="password" v-model="formData.password" :errormsg="formVerify.password" maxlength="22" placeholder="输入密码">
+                <template v-slot:prefix>
+                  <div class="text-hui-100 pr-1">
+                    <i class="ri-lock-fill ri-lg"></i>
+                  </div>
+                </template>
+              </ypinput>
+
             <div class="flex justify-center">
-                <button type="button" class="yp-button rounded w-full text-center" @click="submit">登录</button>
+                <button type="button" class="btn btn-lan w-full" @click="submit">登录</button>
             </div>
+        </div>
+        <div class="absolute left-0 bottom-0 w-full text-center py-2 text-sm">
+          Copyright © 2022 东海县一品网络技术有限公司
         </div>
     </div>
 </template>
 <script setup>
-import {getData,postData,alter} from '@/api/data.js'
-import store from '@/store'
-import { reactive, watch } from 'vue'
-import { router, loadAsyncRoutes } from '@/router'
-const login = reactive({
-  username: '',
-  password: ''
-})
-const errors = reactive({
-  username: {
-    classname: 'form-success',
-    message: ''
-  },
-  password: {
-    classname: 'form-success',
-    message: ''
-  }
-})
-watch(
-  () => login.username,
-  (newVal, oldVal) => {
-    if (newVal == '') {
-      errors.username.classname = 'form-error'
-      errors.username.message = '请输入账号'
-    } else {
-      errors.username.classname = 'form-success'
-      errors.username.message = ''
+    import {getData,postData,alter} from '@/api/data.js'
+    import store from '@/store'
+    import { reactive, watch } from 'vue'
+    import { router, loadAsyncRoutes } from '@/router'
+    const formData = reactive({
+        username: '',
+        password: ''
+    })
+    const formVerify = reactive({
+        username: '',
+        password: ''
+    })
+    watch(
+    () => formData.username,
+    (newVal, oldVal) => {
+        if (newVal == '') {
+            formVerify.username = '请输入账号'
+        } else {
+            formVerify.username=''
+        }
     }
-  }
-)
-watch(
-  () => login.password,
-  (newVal, oldVal) => {
-    if (newVal == '') {
-      errors.password.classname = 'form-error'
-      errors.password.message = '请输入密码'
-    } else {
-      errors.password.classname = 'form-success'
-      errors.password.message = ''
+    )
+    watch(
+    () => formData.password,
+    (newVal, oldVal) => {
+        if (newVal == '') {
+            formVerify.password = '请输入密码'
+        } else {
+            formVerify.password=''
+        }
     }
-  }
-)
+    )
 
-const submit = async (e) => {
-  if (login.username == '') {
-    errors.username.classname = 'form-error'
-    errors.username.message = '请输入账号'
-    return false
-  }
-  if (login.password == '') {
-    errors.password.classname = 'form-error'
-    errors.password.message = '请输入密码'
-    return false
-  }
-  //请求登录
-  const resp = await postData('admin/login', login)
-  if (resp.code == 1) {
-    store.commit('User/SET_TOKEN', resp.data.token)
-    //请求系统基本数据
-    const sysinfo = await getData('index/getsite')
-    if (sysinfo.code == 1) {
-      alter({ type: 'alter-success', text: resp.msg })
-      store.dispatch('User/GET_USER_INFO', sysinfo.data.admin)
-      //登录成功后请求一次路由
-      loadAsyncRoutes()
-      router.push('/')
+    const submit = async (e) => {
+    let validationFailed=0
+    if (formData.username == '') {
+            formVerify.username = '请输入账号'
+            validationFailed++
     }
-  }
-}
+    if (formData.password == '') {
+            formVerify.password = '请输入密码'
+            validationFailed++
+    }
+    if(validationFailed>0){
+            return false
+    }
+    //请求登录
+    const resp = await postData('admin/login', formData)
+    if (resp.code == 1) {
+            store.commit('User/SET_TOKEN', resp.data.token)
+            //请求系统基本数据
+            const sysinfo = await getData('index/getsite')
+            if (sysinfo.code == 1) {
+                alter({ type: 'alter-success', text: resp.msg })
+                store.dispatch('User/GET_USER_INFO', sysinfo.data.admin)
+                //登录成功后请求一次路由
+                loadAsyncRoutes()
+                router.push('/')
+            }
+    }
+    }
 </script>

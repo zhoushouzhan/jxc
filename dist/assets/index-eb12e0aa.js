@@ -1,1 +1,0 @@
-import{_ as m}from"./add-4647056c.js";import{s,r as n,p as c,d as r,v as p,x as i}from"./index-ffc5c309.js";const f={__name:"index",setup(_){const t=s(m),a=n({data:{}}),o=e=>{a.data=e.item?e.item:{},t.value=e.to};return c("getItem",{item:a}),(e,l)=>(r(),p(i(t.value),{onJumpCom:o},null,32))}};export{f as default};

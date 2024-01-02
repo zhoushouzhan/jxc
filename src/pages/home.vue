@@ -1,7 +1,7 @@
 <!--
  * @Author: 一品网络技术有限公司
  * @Date: 2022-06-22 11:12:24
- * @LastEditTime: 2022-09-17 16:31:44
+ * @LastEditTime: 2024-01-01 23:45:57
  * @FilePath: \ypcmsvue3\src\pages\home.vue
  * @Description:
  * 联系QQ:58055648
@@ -60,7 +60,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="border-t overflow-auto flex-1" ref="modpage">
+			<div class="border-t overflow-auto flex-1 bg-white bg-opacity-75" ref="modpage">
 				<router-view :key="key"></router-view>
 			</div>
       	</div>

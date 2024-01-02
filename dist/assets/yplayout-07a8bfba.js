@@ -1,0 +1,1 @@
+import{a as c,d as r,e as l,i as t,a2 as a,u as n}from"./index-169137c2.js";const d={class:"modbox"},_={class:"flex my-2 items-center pb-2"},i={class:"space-y-3"},f={__name:"yplayout",setup(m){const o=n(),e=c(o.meta);return(s,u)=>(r(),l("div",d,[t("div",_,[a(s.$slots,"header",{meta:e.value})]),t("div",i,[a(s.$slots,"list",{data:e.value})])]))}};export{f as default};

@@ -1,7 +1,7 @@
 /*
  * @Author: 一品网络技术有限公司
  * @Date: 2022-06-21 22:45:34
- * @LastEditTime: 2022-08-18 10:24:47
+ * @LastEditTime: 2024-01-01 18:43:26
  * @FilePath: \ypcmsvue3\tailwind.config.cjs
  * @Description:
  * 联系QQ:58055648
@@ -14,6 +14,7 @@ module.exports = {
 			colors:{
 				'hui':{
 					50:'#F7F7F7',
+					100:'#c6cacf',
 					200:'#808695',
 					300:'#2C3741',
 					900:'#191A23'
@@ -44,6 +45,9 @@ module.exports = {
 					50:'#F9F0FF',
 					300:'#9254E4'
 				}
+			},
+			fontFamily:{
+				yahei:['Microsoft Yahei']
 			}
 		}
 	},

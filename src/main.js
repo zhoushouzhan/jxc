@@ -1,7 +1,7 @@
 /*
  * @Author: 一品网络技术有限公司
  * @Date: 2022-06-21 16:12:37
- * @LastEditTime: 2022-08-16 22:10:43
+ * @LastEditTime: 2024-01-01 11:51:01
  * @FilePath: \vite-project\src\main.js
  * @Description:
  * 联系QQ:58055648
@@ -19,6 +19,9 @@ import "remixicon/fonts/remixicon.css";
 
 import tooltip from "@/directive/tooltip/directive.js";
 import drag from "@/directive/drag/directive.js";
+
+
+
 const app = createApp(App);
 
 

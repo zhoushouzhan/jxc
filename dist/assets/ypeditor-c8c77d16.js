@@ -1,1 +1,0 @@
-import{d as o,e as r,K as t}from"./index-ffc5c309.js";import{_ as s}from"./_plugin-vue_export-helper-c27b6911.js";const n={};function c(i,e){return o(),r("div",{class:"flex-1",onClick:e[0]||(e[0]=t(()=>{},["stop"]))})}const d=s(n,[["render",c]]);export{d as default};
