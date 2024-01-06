@@ -13,13 +13,13 @@
                     <ypinput v-model="searchParams.keyword" placeholder="关键词|条码" @keyup.enter="tosearch"></ypinput>
                 </div>
                 <div>
-                    <yplist controller="factory" v-model="searchParams.factory_id" colkey="title"></yplist>
+                    <yplist controller="factory" v-model="searchParams.factory_id" colkey="title" defaultTitle="--选择厂商--"></yplist>
                 </div>
                 <div>
-                    <ypselect v-model="searchParams.status" :itemList="statusList"></ypselect>
+                    <ypselect v-model="searchParams.status" :itemList="statusList" defaultTitle="--选择状态--"></ypselect>
                 </div>
                 <div>
-                    <button class="yp-button yp-button-red rounded" @click="tosearch">查询</button>
+                    <button class="btn btn-chen" @click="tosearch">查询</button>
                 </div>
             </div>
             <table class="yp-table-datalist">
@@ -54,7 +54,7 @@
                     <tr>
                         <td></td>
                         <td>{{ index+1 }}</td>
-                        <td><img :src="item.goods.thumbFile" class="max-h-10" @click="openimg(item.goods.thumbFile)"></td>
+                        <td><img :src="item.goods.thumbFile" class="h-28 w-28 object-cover" @click="openimg(item.goods.thumbFile)"></td>
                         <td>{{ item.title }}</td>
                         <td>{{ item.category.title }}</td>
                         <td>{{ item.godown.title }}</td>
@@ -71,11 +71,10 @@
                         <td>{{ item.create_time }}</td>
                         <td>{{ item.intro }}</td>
                         <td>
-                            <div class="space-x-2">
-                                <button class="yp-button yp-button-sm rounded" @click="edit(item.id)" v-if="isbtn('edit')">编辑</button>
-                                <button class="yp-button yp-button-sm yp-button-red rounded" @click="removeitem(item.id)" v-if="isbtn('delete')">删除</button>
+                            <div class="space-x-2" v-if="item.status!=4">
+                                <button class="btn btn-lan" @click="edit(item.id)" v-if="isbtn('edit')">编辑</button>
+                                <button class="btn btn-hong" @click="removeitem(item.id)" v-if="isbtn('delete')">删除</button>
                             </div>
-
                         </td>
                     </tr>
                 </tbody>
@@ -117,16 +116,16 @@
     }
 
     const statusList=reactive([
-        {value:0,title:'全部'},
-        {value:1,title:'正常'},
-        {value:2,title:'异常'},
-        {value:3,title:'出售中'},
-        {value:4,title:'己售'},
+        {id:0,title:'全部'},
+        {id:1,title:'正常'},
+        {id:2,title:'异常'},
+        {id:3,title:'出售中'},
+        {id:4,title:'己售'},
     ])
 
     const searchParams=reactive({
         keyword:'',
-        status:0,
+        status:null,
         orderby:'',
         ordersort:'',
         page:0

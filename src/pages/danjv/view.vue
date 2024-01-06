@@ -33,10 +33,11 @@
                     <thead>
                         <tr>
                             <th class="text-center w-20">序号</th>
-                            <th class="w-40">图片</th>
+                            <th class="w-32">图片</th>
                             <th>名称</th>
                             <th>条码</th>
                             <th>成本</th>
+                            <th>零售价</th>
                             <th>数量</th>
                             <th>备注</th>
                         </tr>
@@ -45,11 +46,14 @@
                         <template v-for="(item,index) in res.bill">
                             <tr>
                                 <td class="text-center">{{ index+1 }}</td>
-                                <td class="w-40"><img :src="item.thumbFile" class=" object-cover"></td>
+                                <td><img :src="item.thumbFile" class="w-32 h-32 object-cover" @click="openimg(item.thumbFile)"></td>
                                 <td>{{ item.title }}</td>
                                 <td>{{ item.code }}</td>
                                 <td>
                                     ￥{{ item.inprice }}
+                                </td>
+                                <td>
+                                    ￥{{ item.storeprice }}
                                 </td>
                                 <td>
                                     {{ item.numbers }}
@@ -109,7 +113,9 @@
     const goback=()=>{
         emits('jumpCom',{to:'list'})
     }
-
+    const openimg=(src)=>{
+        window.open(src)
+    }
 
     //导出选中项目
     const ypexport = async() => {

@@ -20,17 +20,17 @@
       </div>
     </div>
   </template>
-  <div class="end-item" v-else :class="menuSwitch.chitem.value.id==list.id?'text-red-500':''">
-    <div :style="'padding-left:'+leave+'em'" class="flex items-center" style="white-space:nowrap" @click.stop="menuSwitch.selected(list)" v-if="!list.islast">
+  <div class="end-item" v-else :class="menuSwitch.chitem.value.id==list.id?'text-red-500':''"  @click.stop="menuSwitch.selected(list)">
+    <div :style="'padding-left:'+leave+'em'" class="flex items-center" style="white-space:nowrap" v-if="!list.islast">
       <i class="ri-arrow-drop-right-fill px-1"></i>{{list.title}}
     </div>
-    <div :style="'padding-left:'+leave+'em'" class="flex items-center" style="white-space:nowrap" @click.stop="menuSwitch.noselect('终极栏目不可选')" v-else>
+    <div :style="'padding-left:'+leave+'em'" class="flex items-center" style="white-space:nowrap" v-else>
       <i class="ri-arrow-drop-right-fill px-1"></i>{{list.title}}
     </div>
   </div>
 </template>
 <script setup>
-import { inject } from 'vue'
-const props = defineProps({ list: { default: [] }, leave: { default: 0 } })
-const menuSwitch = inject('menu-switch')
+  import { inject } from 'vue'
+  const props = defineProps({ list: { default: [] }, leave: { default: 0 } })
+  const menuSwitch = inject('menu-switch')
 </script>

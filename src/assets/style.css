@@ -3,7 +3,7 @@
 @tailwind utilities;
 html,body {
   animation-fill-mode: forwards;
-  @apply font-yahei text-hui-200 h-full overflow-x-hidden
+  @apply bg-hui-50 font-yahei text-hui-200 h-full overflow-x-hidden
 }
 #app{
   @apply h-full w-full
@@ -207,10 +207,10 @@ input::-webkit-input-placeholder {
     @apply border-t border-l border-r text-sm;
   }
   .ypmenu .end-item {
-    @apply py-1 border-b hover:bg-gray-100;
+    @apply py-1.5 border-b hover:bg-gray-100;
   }
   .ypmenu .pre-item {
-    @apply py-1 border-b cursor-pointer hover:bg-gray-100;
+    @apply py-1.5 border-b cursor-pointer hover:bg-gray-100;
   }
   .authrule {
     @apply text-sm;
@@ -273,7 +273,7 @@ input::-webkit-input-placeholder {
   }
   /*pages*/
   .pages{
-    @apply flex justify-center items-center text-sm
+    @apply flex justify-center items-center text-sm text-hui-300
   }
   .pages>div{
     @apply h-8 mx-1 flex items-center duration-300 justify-center rounded-sm cursor-pointer bg-gray-300 px-2 hover:bg-gray-600 hover:text-white
@@ -338,7 +338,7 @@ input::-webkit-input-placeholder {
 }
 /*NewStyle*/
 .btn{
-    @apply rounded border px-3 py-2 bg-white text-[14px] duration-200 hover:border-lan-200 hover:text-lan-300
+    @apply rounded border px-3 py-1.5 bg-white text-[14px] duration-200 hover:border-lan-200 hover:text-lan-300
 }
 .btn-lan{
     @apply border-none bg-lan-300 text-white text-[14px] duration-200 hover:text-white hover:bg-lan-200 active:bg-lan-300
@@ -346,6 +346,20 @@ input::-webkit-input-placeholder {
 .btn-hong{
     @apply border-none bg-hong-300 text-white text-[14px] duration-200 hover:text-white hover:bg-hong-200 active:bg-hong-300
 }
+.btn-lv{
+  @apply border-none bg-lv-300 text-white text-[14px] duration-200 hover:text-white hover:bg-lv-200 active:bg-lv-300
+}
+.btn-chen{
+  @apply border-none bg-chen-300 text-white text-[14px] duration-200 hover:text-white hover:bg-chen-200 active:bg-chen-300
+}
+.btn-qin{
+  @apply border-none bg-qin-300 text-white text-[14px] duration-200 hover:text-white hover:bg-qin-200 active:bg-qin-300
+}
+.btn-zi{
+  @apply border-none bg-zi-300 text-white text-[14px] duration-200 hover:text-white hover:bg-zi-200 active:bg-zi-300
+}
+
+
 .btn-small{
     @apply px-1.5 py-[2px]
 }

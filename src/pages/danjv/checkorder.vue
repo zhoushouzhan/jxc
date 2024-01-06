@@ -25,7 +25,9 @@
                             <template v-for="(item,index) in formData.bill">
                                 <tr class=" hover:bg-gray-100" :class="{'bg-gray-200':select_index==item.goods_id}" @click="chooseItem(item)">
                                     <td class="text-center">{{ index+1 }}</td>
-                                    <td class="w-40"><img :src="item.thumbFile" class=" object-cover"></td>
+                                    <td>
+                                        <img :src="item.thumbFile" class="w-20 h-20 object-cover" @click="openimg(item.thumbFile)">
+                                    </td>
                                     <td>
                                         <div>{{ item.title }}</div>
                                         <div class="text-red-600 font-bold">{{ item.code }}</div>

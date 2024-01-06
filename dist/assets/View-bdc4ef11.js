@@ -1,1 +1,0 @@
-import{o as e,d as s,e as t,i as o}from"./index-169137c2.js";const _={class:"m-3 text-sm"},a=o("div",{class:"bg-white p-2 rounded"}," 模型数据待开发... ",-1),c=[a],l={__name:"View",props:{modName:null},emits:["close"],setup(n,{emit:i}){return e(()=>{}),(d,m)=>(s(),t("div",_,c))}};export{l as default};

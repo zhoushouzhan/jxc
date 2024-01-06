@@ -3,14 +3,26 @@
         <template #header="head">
             <i class="ri-2x ri-database-2-line text-gray-500 ml-2"></i>
             <div class="text-xl px-3" v-html="head.meta.title"></div>
-            <div class="flex-1 flex flex-row-reverse space-x-reverse space-x-2"></div>
-            <div class="flex space-x-3">
-                <button class="yp-button yp-button-sm yp-button rounded px-3" @click="emits('jumpCom',{to:'in'})">入库</button>
-                <button class="yp-button yp-button-sm yp-button-red rounded px-3" @click="emits('jumpCom',{to:'out'})">出库</button>
-            </div>
         </template>
         <template #list>
+            <div class="flex items-center justify-between">
+                <div class="space-x-2">
+                    <button class="btn">入库单</button>
+                    <button class="btn">出库单</button>
 
+                </div>
+                <div class="flex space-x-2">
+                    <div>
+                        <button class="btn btn-lan" @click="emits('jumpCom',{to:'in'})">入库</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-hong" @click="emits('jumpCom',{to:'out'})">出库</button>
+                    </div>
+
+                </div>
+
+
+            </div>
             <table class="table-auto w-full text-sm">
                 <thead class="bg-gray-100">
                     <tr>
@@ -49,10 +61,10 @@
                       </td>
                       <td class="border px-2 max-lg:hidden">{{ vo.create_time }}</td>
                       <td class="border px-2 py-2 text-center">
-                        <button class="yp-button yp-button-sm rounded mr-2" @click="edit(vo)" v-if="vo.enabled==0">编辑</button>
-                        <button class="yp-button yp-button-sm rounded yp-button-green mr-2" @click="view(vo.id)" v-else>查看</button>
-                        <button class="yp-button yp-button-sm rounded yp-button-black mr-2" @click="checkorder(vo.id)" v-if="isbtn('enabled')&&vo.enabled==0">核验</button>
-                        <button class="yp-button yp-button-red yp-button-sm rounded" @click="removeItem(vo.id)" v-if="vo.enabled==0">删除</button>
+                        <button class="btn btn-lan mr-2" @click="edit(vo)" v-if="vo.enabled==0">编辑</button>
+                        <button class="btn mr-2" @click="view(vo.id)" v-else>查看</button>
+                        <button class="btn btn-zi mr-2" @click="checkorder(vo.id)" v-if="isbtn('enabled')&&vo.enabled==0">核验</button>
+                        <button class="btn btn-hong" @click="removeItem(vo.id)" v-if="vo.enabled==0">删除</button>
                       </td>
                     </tr>
                 </tbody>

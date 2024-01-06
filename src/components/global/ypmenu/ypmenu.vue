@@ -67,7 +67,6 @@
     },
     selected: (obj) => {
       chitem.value = obj
-      console.log(ypmenudom.value.scrollWidth,'w',obj)
       emit('update:modelValue', obj)
     },
     noselect: (msg) => {

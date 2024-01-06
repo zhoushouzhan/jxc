@@ -1,8 +1,22 @@
+<!--
+ * @Author: 一品网络技术有限公司
+ * @Date: 2022-07-08 14:26:03
+ * @LastEditTime: 2022-09-01 13:29:23
+ * @FilePath: \ypcmsvue3\src\components\global\yphasone.vue
+ * @Description:此组件传入控制器和显示字段
+ * 联系QQ:58055648
+ * Copyright (c) 2022 by 东海县一品网络技术有限公司, All Rights Reserved.
+-->
 <template>
     <div v-if="isload">
         <div class="flex space-x-2">
             <div @click="showList=true">
-                <div class="border rounded h-8 w-32 flex items-center px-2 text-blue-600" v-text="title"></div>
+                <div class="border rounded h-8 w-32 flex items-center px-2 text-blue-600 relative">
+                    <div v-text="title"></div>
+                    <div class="absolute right-0" v-show="modelValue">
+                        <i class="ri-close-circle-fill duration-300 mr-2 text-hui-200 hover:text-hong-300" @click.stop="removeId"></i>
+                    </div>
+                </div>
             </div>
         </div>
         <teleport to='body'>
@@ -52,6 +66,9 @@
         },
         colkey:{
             default:'title'
+        },
+        defaultTitle:{
+            default:'--请选择--'
         }
     })
     const emits = defineEmits(['update:modelValue'])
@@ -60,7 +77,7 @@
 
 
 
-    const title=ref('请选择')
+    const title=ref(props.defaultTitle)
 
     //search
     const searchData=reactive({
@@ -119,8 +136,13 @@
         if(resp.code){
             title.value=resp.data.title
         }
-
     }
+
+    const removeId=()=>{
+        title.value=props.defaultTitle
+        emits('update:modelValue',null)
+    }
+
     onMounted(async()=>{
         if(props.modelValue){
             await read(props.modelValue)

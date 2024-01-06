@@ -84,12 +84,12 @@
                     </div>
                     <div class="flex py-2 space-x-2 mt-5">
                         <div class="w-24"></div>
-                        <button class="yp-button yp-button-orange rounded" type="button" @click="save">
+                        <button class="btn btn-chen" type="button" @click="save">
                             <i class="ri-save-line ri-lg pr-1"></i>
                             提交
                         </button>
-                        <button class="yp-button yp-button-gray rounded" type="button" @click="goBack">
-                            <i class="ri-format-clear ri-lg pr-1"></i>
+                        <button class="btn" type="button" @click="goBack">
+                            <i class="ri-arrow-go-back-line ri-lg pr-1"></i>
                             返回
                         </button>
                     </div>

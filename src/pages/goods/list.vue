@@ -6,36 +6,14 @@
                 <div class="text-xl px-2">{{ props.meta.title }}</div>
                 <div class="text-gray-400"></div>
             </div>
-            <div class="flex-1"></div>
-            <div class="flex items-center space-x-3">
-                <button class="yp-button yp-button-red rounded py-2" type="button" @click="add" v-if="isbtn('add')">
-                    <i class="ri-add-line ri-lg pr-1"></i>
-                    录入商品
-                </button>
-
-                <button class="yp-button yp-button-pink rounded" @click="emits('jumpTo',{to:'import'})">
-                    <i class="ri-download-2-fill ri-lg pr-1"></i>
-                    导入商品
-                </button>
-
-
-                <button class="yp-button yp-button-orange rounded" @click="ypexport">
-                    <i class="ri-upload-2-fill ri-lg pr-1"></i>
-                    导出
-                </button>
-                <button class="yp-button yp-button-black rounded" @click="barcode">
-                    <i class="ri-barcode-line ri-lg pr-1"></i>
-                    打印条码
-                </button>
-            </div>
         </template>
         <template #list>
             <div class="flex items-center space-x-2">
                 <div>
-                    <Linkage v-model="searchParam.category_id"></Linkage>
+                    <yptree v-model="searchParam.category_id" :itemList="categoryList" defaultTitle="--选择栏目--"></yptree>  
                 </div>
                 <div>
-                    <ypselect v-model="searchParam.stone" :itemList="stoneList"></ypselect>
+                    <ypselect v-model="searchParam.stone" :itemList="stoneList" defaultTitle="--选择原石--"></ypselect>
                 </div>
                 <div>
                     <ypinput v-model="searchParam.code" placeholder="条码" @keyup.enter="getList"></ypinput>
@@ -47,16 +25,35 @@
                     <ypinput v-model="searchParam.label" placeholder="标签" @keyup.enter="getList"></ypinput>
                 </div>
                 <div>
-                    <button class="yp-button yp-button-sm yp-button-orange rounded" @click="gosearch">查询</button>
+                    <button class="btn btn-chen" @click="gosearch">查询</button>
+                </div>
+                <div class="flex-1"></div>
+                <div class="flex items-center space-x-3">
+                    <button class="btn btn-hong" type="button" @click="add" v-if="isbtn('add')">
+                        <i class="ri-add-line ri-lg pr-1"></i>
+                        录入商品
+                    </button>
+                    <button class="btn btn-lan" @click="emits('jumpTo',{to:'import'})">
+                        <i class="ri-download-2-fill ri-lg pr-1"></i>
+                        导入商品
+                    </button>
+                    <button class="btn btn-lv" @click="ypexport">
+                        <i class="ri-upload-2-fill ri-lg pr-1"></i>
+                        导出
+                    </button>
+                    <button class="btn btn-zi" @click="barcode">
+                        <i class="ri-barcode-line ri-lg pr-1"></i>
+                        打印条码
+                    </button>
                 </div>
             </div>
             <div>
-                <table class="yp-table-datalist">
+                <table class="yp-table-datalist text-hui-300">
                     <thead>
                         <tr>
                             <th><ypcheckbox value="all" v-model="checkedAll" v-tooltip.top="'全选'"></ypcheckbox></th>
                             <th>序号</th>
-                            <th>图片</th>
+                            <th class="w-28">图片</th>
                             <th>名称</th>
                             <th>类别</th>
                             <th>金属</th>
@@ -94,7 +91,7 @@
                         <tr v-for="(item,index) in dataList" :class="{'bg-pink-50':(printBarcode.indexOf(item.id)>=0),'bg-lime-100':(ingodownList.indexOf(item.id)>=0)}">
                             <td><ypcheckbox :value="item.id" v-model="selectIds"></ypcheckbox></td>
                             <td>{{ getOrder(index) }}</td>
-                            <td><img :src="item.thumbFile" class="max-h-10" @click="openimg(item.thumbFile)"></td>
+                            <td><img :src="item.thumbFile" class="w-28 h-28 object-cover" @click="openimg(item.thumbFile)"></td>
                             <td>{{ item.title }}</td>
                             <td>{{ item.category&&item.category.title||'/' }}</td>
                             <td><div v-for="(vo,index) in item.metalInfo">{{ vo.title }}</div></td>
@@ -104,7 +101,7 @@
                             <td>{{ item.stock }}</td>
                             <td>{{ item.code }}</td>
                             <td>{{ item.label}}</td>
-                            <td><button class="yp-button yp-button-sm" @click="edit(item.id)" v-if="isbtn('edit')">编辑</button></td>
+                            <td><button class="btn btn-lan" @click="edit(item.id)" v-if="isbtn('edit')">编辑</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -118,13 +115,13 @@
                     <ypcheckbox value="all" v-model="checkedAll" v-tooltip.top="'全选'"></ypcheckbox>
                 </div>
                 <div>
-                    <button class="yp-button yp-button-red yp-button-sm rounded-sm" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
+                    <button class="btn btn-hong" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
                 </div>
                 <div>
-                    <button class="yp-button yp-button-sm rounded-sm" @click="barcodeItem(0)" v-tooltip.bottom="'加入打印标签'">加入打印</button>
+                    <button class="btn btn-zi" @click="barcodeItem(0)" v-tooltip.bottom="'加入打印标签'">加入打印</button>
                 </div>
                 <div>
-                    <button class="yp-button yp-button-sm yp-button-black rounded-sm" @click="ingodownItem(0)" v-tooltip.bottom="'添加到入库队列'">添加到入库单</button>
+                    <button class="btn btn-lv" @click="ingodownItem(0)" v-tooltip.bottom="'添加到入库队列'">添加到入库单</button>
                 </div>
 
                 <div v-if="pageData.pageCount>1">
@@ -340,10 +337,22 @@
         const resp= await getData('/classify/index',{pid:3428})
         if(resp.code==1){
             Object.keys(resp.data).map((k)=>{
-                stoneList[k]={value:resp.data[k].id,title:resp.data[k].title}
+                stoneList[k]={id:resp.data[k].id,title:resp.data[k].title}
             })
         }
     }
+    const categoryList=reactive([])
+    const get_category=async()=>{
+        const resp= await getData('category/readTree')
+        if(resp.code==1){
+            categoryList.length=0
+            Object.keys(resp.data).map((k)=>{
+                categoryList.push(resp.data[k])
+            })
+        }
+    }
+
+
 
     onMounted(async() => {
         const godownres=await getData('/godown/index')
@@ -355,6 +364,7 @@
         }
         await classify_stone()
         await getList()
+        await get_category()
         document.addEventListener("click",()=>{
             //store.state.isLoading = true
             //checkedAll.length=0
