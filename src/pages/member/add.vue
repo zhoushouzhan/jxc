@@ -29,7 +29,12 @@
                           <ypinput v-model="formData.mobile" placeholder="请输入手机号"></ypinput>
                       </div>
                   </div>
-
+                  <div class="flex items-center">
+                      <div class="w-24 text-right pr-5">来源</div>
+                      <div class="flex-1">
+                          <ypinput v-model="formData.source" placeholder="客户从哪个渠道来的"></ypinput>
+                      </div>
+                  </div>
 
                   <div class="flex items-center">
                       <div class="w-24 text-right pr-5">描述</div>
@@ -50,7 +55,7 @@
                   </button>
               </div>
           </div>
-          {{ formData }}
+
       </template>
   </yplayout>
 </template>

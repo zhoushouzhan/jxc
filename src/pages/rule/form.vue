@@ -105,8 +105,8 @@
     }
   ])
   const typeitem = reactive([
-    { value: 1, title: '目录' },
-    { value: 2, title: '页面' }
+    { id: 1, title: '目录' },
+    { id: 2, title: '页面' }
   ])
   const modList = reactive([])
   const save = async () => {
@@ -143,7 +143,7 @@
     const getmod = await getData('/mod/index')
     if (getmod.code == 1) {
       getmod.data.forEach((item) => {
-        modList.push({ value: item.id, title: item.alias })
+        modList.push({ id: item.id, title: item.alias })
       })
     }
     isload.value=true

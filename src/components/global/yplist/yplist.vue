@@ -67,6 +67,9 @@
         colkey:{
             default:'title'
         },
+        exclude:{
+            default:null
+        },
         defaultTitle:{
             default:'--请选择--'
         }
@@ -82,6 +85,7 @@
     //search
     const searchData=reactive({
         keyword:'',
+        id:props.exclude,
         page:0
     })
 

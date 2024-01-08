@@ -69,7 +69,6 @@ export default {
           }
         })
       }
-
       ctx.commit("clearCurrentMenu")
       getMenuPid(route,obj.path)
     }

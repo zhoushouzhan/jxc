@@ -7,55 +7,50 @@
         <template #list>
             <div class="flex items-center justify-between">
                 <div class="space-x-2">
-                    <button class="btn" :class="{'btn-zi':type==1&&!enabled}" @click="getTypeData(1)">入库单</button>
-                    <button class="btn" :class="{'btn-zi':type==1&&enabled==1}" @click="getTypeData(1,1)">入库核验单</button>
 
                 </div>
                 <div class="flex space-x-2">
                     <div>
-                        <button class="btn btn-lan" @click="emits('jumpCom',{to:'in'})">增加入库单</button>
-                    </div>
-                    <div>
-                        <button class="btn btn-hong" @click="emits('jumpCom',{to:'move'})">增加调拔单</button>
+                        <button class="btn btn-hong" @click="emits('jumpCom',{to:'out'})">增加</button>
                     </div>
                 </div>
 
 
             </div>
-            <table class="table-auto w-full text-sm">
+            <table class="yp-table-datalist text-hui-300">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-2 py-2 border w-10 font-thin">
+                        <th class="px-2 py-2 w-10 font-thin">
                             <ypcheckbox value="all" v-model="checkedAll" v-tooltip.top="'全选'"></ypcheckbox>
                         </th>
-                        <th class="px-2 py-2 border w-10 text-center">ID</th>
-                        <th class="px-2 py-2 border w-44 text-center max-lg:hidden">单号</th>
-                        <th class="px-2 py-2 border text-left">操作员</th>
-                        <th class="px-2 py-2 border w-32">库存</th>
-                        <th class="px-2 py-2 border w-32">状态</th>
-                        <th class="px-2 py-2 border w-44 max-lg:hidden">录入时间</th>
-                        <th class="px-2 py-2 border text-center">操作</th>
+                        <th>ID</th>
+                        <th>会员</th>
+                        <th>单号</th>
+                        
+                        <th>商品数量</th>
+                        <th>商品金额</th>
+                        <th>操作员</th>
+                        <th>录入时间</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="hover:bg-gray-100" v-for="(vo,key) in dataList" :key="key">
-                      <td class="border px-2">
+                    <tr class="hover:bg-gray-100 py-1" v-for="(vo,key) in dataList" :key="key">
+                      <td class="px-2">
                         <ypcheckbox :value="vo.id" v-model="selectIds"></ypcheckbox>
                       </td>
-                      <td class="border px-2 text-center">{{vo.id}}</td>
-                      <td class="border px-2 max-lg:hidden">{{ vo.sn }}</td>
-
-                      <td class="border px-2 space-x-2 text-sm">
+                      <td>{{vo.id}}</td>
+                      <td>{{ vo.member.truename }}</td>
+                      <td>{{ vo.sn }}</td>
+                      <td>{{ vo.goodsCount }}</td>
+                      <td>
+                        ￥{{ vo.sumprice }}
+                      </td>
+                      <td>
                         {{ vo.admin.truename||vo.admin.username }}
                       </td>
-                      
-                      <td class="border px-2 text-center">{{ vo.goodsCount }}</td>
-                      <td class="border px-2 text-center">
-                        <span class="bg-red-400 text-white px-2 py-[2px] rounded" v-if="vo.enabled==0">核验中</span>
-                        <span class="bg-green-700 text-white px-2 py-[2px] rounded" v-else>己入库</span>
-                      </td>
-                      <td class="border px-2 max-lg:hidden">{{ vo.create_time }}</td>
-                      <td class="border px-2 py-2 text-center">
+                      <td>{{ vo.create_time }}</td>
+                      <td class="text-right">
                         <button class="btn btn-lan mr-2" @click="edit(vo)" v-if="vo.enabled==0">编辑</button>
                         <button class="btn mr-2" @click="view(vo)" v-else>查看</button>
                         <button class="btn btn-zi mr-2" @click="checkorder(vo.id)" v-if="isbtn('enabled')&&vo.enabled==0">核验</button>
@@ -65,11 +60,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="border p-2">
+                        <td class="px-2">
                             <ypcheckbox value="all" v-model="checkedAll" v-tooltip.right="'全选'"></ypcheckbox>
                         </td>
-                        <td class="border p-2" colspan="8">
-                            <button class="btn btn-hong" @click="removeItem(0)" v-tooltip.bottom="'批量删除'"  v-if="isbtn('delete')">批量删除</button>
+                        <td colspan="8">
+                            <button class="btn btn-hong" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -95,7 +90,6 @@
 
     const route = useRoute()
     const meta = route.meta
-    const type=ref(1)
     const enabled=ref(null)
     const isLoad=ref(false)
 
@@ -125,37 +119,24 @@
             selectIds.length = 0
         }
     })
-    const getTypeData=(i,s)=>{
-        type.value=i
-        enabled.value=s
-        getList()
-    }
-    const edit=(obj)=>{
 
+    const edit=(obj)=>{
         if(obj.type==1){
             emits('jumpCom',{to:'in',id:obj.id,page:pageData.currentPage})
         }
         if(obj.type==2){
             emits('jumpCom',{to:'out',id:obj.id,page:pageData.currentPage})
         }
-
     }
     const view=(vo)=>{
-        if(vo.type==1){
-            emits('jumpCom',{to:'view',id:vo.id,page:pageData.currentPage})
-        }
-        if(vo.type==2){
-            emits('jumpCom',{to:'outview',id:vo.id,page:pageData.currentPage})
-        }
-        
-   
+        emits('jumpCom',{to:'view',id:vo.id,page:pageData.currentPage})
     }
     const checkorder=(id)=>{
         emits('jumpCom',{to:'checkorder',id:id,page:pageData.currentPage})
     }
 
     const getList=async ()=>{
-        let resp= await getData('kucundan/index',{page:pageData.currentPage,type:type.value,enabled:enabled.value})
+        let resp= await getData('kucundan/sellorder',{page:pageData.currentPage,type:2,enabled:enabled.value})
         if(resp.code==1){
 
             pageData.currentPage = resp.data.current_page

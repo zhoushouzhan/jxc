@@ -116,9 +116,9 @@
   </div>
 </template>
 <script setup>
-import { getData, postData, alter,isJSON } from '@/api/data'
+import { getData, postData, alter } from '@/api/data'
 import store from '@/store'
-import { ref, reactive,computed, onMounted, watch } from 'vue'
+import { ref, reactive,computed, onMounted } from 'vue'
 const isload=ref(false)
 const formData = reactive({
   id: '',

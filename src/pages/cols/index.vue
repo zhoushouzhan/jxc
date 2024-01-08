@@ -15,39 +15,54 @@
       <div class="text-gray-400">建立模型前先录入字段</div>
       <div class="flex-1"></div>
       <div class="hidden md:block min-w-[500px]">
-        <div class="flex space-x-1">
-          <ypselect :itemList="formItem" v-model="searchParams.formItem"></ypselect>
-          <ypinput v-model="searchParams.keyword" placeholder="关键词+回车" @keyup.enter="getList" class=" min-w-[200px]"></ypinput>
-          <button class="yp-button yp-button-darkgreen rounded whitespace-nowrap" type="button" @click="add">
-            <i class="ri-add-line ri-lg pr-1"></i>
-            增加
-          </button>
-        </div>
+
       </div>
     </template>
     <template #list>
-      <div>
-        <div class="flex border-b bg-gray-100 leading-8 font-bold">
-          <div class="text-center md:w-20 border-r w-8">Id</div>
-          <div class="md:w-32 pl-2 flex-1 md:flex-initial">注释</div>
-          <div class="md:w-32 pl-2 hidden md:block">字段</div>
-          <div class="md:w-32 pl-2 hidden md:block">类型</div>
-          <div class="md:w-32 pl-2 hidden md:block">表单元素</div>
-          <div class="flex-1 pl-2 hidden md:block">扩展参数</div>
-          <div class="w-14 text-center">操作</div>
-        </div>
-        <div class="flex hover:bg-slate-500 hover:text-white duration-300 leading-10" v-for="(item,index) in dataList" :key="index" :class="index%2?'bg-gray-100':''" @dblclick="edit(item.id)">
-          <div class="text-center md:w-20 border-r w-8">{{item.id}}</div>
-          <div class="md:w-32 pl-2 flex-1 md:flex-initial">{{item.alias}}</div>
-          <div class="md:w-32 pl-2 hidden md:block">{{item.name}}</div>
-          <div class="md:w-32 pl-2 hidden md:block">{{item.type}}</div>
-          <div class="md:w-32 pl-2 hidden md:block">{{item.formitem}}</div>
-          <div class="flex-1 pl-2 hidden md:block">{{item.extends}}</div>
-          <div class="text-center space-x-2">
-            <button class="yp-button yp-button-sm rounded" @click="edit(item.id)">编辑</button>
-            <button class="yp-button yp-button-sm yp-button-red rounded" @click="destory(item.id)">删除</button>
+      <div class="flex justify-between">
+        <div class="flex space-x-1">
+          <ypselect :itemList="formItem" v-model="searchParams.formItem" defaultTitle="--选择字段类型--"></ypselect>
+          <ypinput v-model="searchParams.keyword" placeholder="关键词+回车" @keyup.enter="getList" class=" min-w-[200px]"></ypinput>
+          <div class="flex-shrink-0">
+            <button class="btn" type="button" @click="getList">查询</button>
           </div>
         </div>
+        <div>
+          <button class="btn btn-lan" type="button" @click="add">增加字段</button>
+        </div>
+
+      </div>
+
+      <table class="yp-table-datalist text-hui-300">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>注释</th>
+            <th>字段</th>
+            <th>类型</th>
+            <th>表单元素</th>
+            <th>扩展参数</th>
+            <th class="text-center">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in dataList" :key="index" @dblclick="edit(item.id)">
+            <td>{{item.id}}</td>
+            <td>{{item.alias}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.formitem}}</td>
+            <td>{{item.extends}}</td>
+            <td class="text-center">
+              <div class="space-x-2">
+                <button class="btn btn-lan" @click="edit(item.id)">编辑</button>
+                <button class="btn btn-hong" @click="destory(item.id)">删除</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
         <yppage @topage="topage" :pageData="pageData" v-if="pageData.pageCount>1" class="mt-5" />
       </div>
     </template>
@@ -61,7 +76,7 @@ import store from '@/store'
 import { getData, postData, alter, confirms } from '@/api/data'
 import { ref, reactive, watch, onMounted, shallowRef } from 'vue'
 import Form from './form.vue'
-const formItem = reactive([{id:'',title:'全部'}])
+const formItem = reactive([])
 store.getters.formItem.forEach((item) => {
   formItem.push({ id: item.value, title: item.name })
 })
@@ -86,7 +101,7 @@ const  pageData=reactive({
 
 const searchParams = reactive({
   keyword:'',
-  formItem:'',
+  formItem:null,
   page:pageData.currentPage
 })
 const VisibleDialog = ref(false)

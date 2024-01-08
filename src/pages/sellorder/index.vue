@@ -4,9 +4,7 @@
 <script setup>
     import { ref } from 'vue'
     import List from './list.vue'
-    import In from "./in.vue"
-    import Move from "./move.vue"
-    import Moveview from "./moveview.vue"
+    import Out from "./out.vue"
     import View from "./view.vue"
     import Checkorder from "./checkorder.vue"
     import { shallowRef } from 'vue'
@@ -15,20 +13,8 @@
     const t=ref(0)
     const componentId = shallowRef(List)
     const jumpCom = (obj) => {
-        if(obj.to=='in'){
-            componentId.value=In
-            Id.value=obj.id
-            page.value=obj.page
-            t.value=obj.t
-        }
-        if(obj.to=='move'){
-            componentId.value=Move
-            Id.value=obj.id
-            page.value=obj.page
-            t.value=obj.t
-        }
-        if(obj.to=='moveview'){
-            componentId.value=Moveview
+        if(obj.to=='out'){
+            componentId.value=Out
             Id.value=obj.id
             page.value=obj.page
             t.value=obj.t
@@ -43,7 +29,6 @@
             page.value=obj.page
             componentId.value=View
         }
-
         if(obj.to=='checkorder'){
             Id.value=obj.id
             page.value=obj.page

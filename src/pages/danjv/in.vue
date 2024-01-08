@@ -4,7 +4,7 @@
             <i class="ri-2x text-gray-500 ml-2 ri-indent-increase"></i>
             <div class="text-xl px-3">入库单</div>
             <div class="flex-1 flex flex-row-reverse space-x-reverse space-x-2"></div>
-            <button class="yp-button yp-button-sm yp-button-orange rounded-sm" @click="goback">返回</button>
+            <button class="btn btn-chen" @click="goback">返回</button>
         </template>
         <template #list>
             <div class=" bg-white text-sm">

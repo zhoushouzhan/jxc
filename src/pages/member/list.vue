@@ -2,45 +2,50 @@
     <yplayout>
         <template #header="head">
             <i class="ri-2x ri-user-3-fill text-gray-500 ml-2"></i>
-            <div class="text-xl px-3" v-html="head.meta.title"></div>
+            <div class="text-xl px-3">会员管理</div>
             <div class="flex-1 flex flex-row-reverse space-x-reverse space-x-2"></div>
-            <button class="yp-button yp-button-sm yp-button-purple rounded-sm" @click="add">增加</button>
         </template>
         <template #list>
-            <table class="table-auto w-full text-sm">
+            <div class="flex justify-between">
+                <div>
+                    <ypinput v-model="keywords" placeholder="关键词+回车" @keyup.enter="getList" class=" min-w-[200px]"></ypinput>
+                </div>
+                <div>
+                    <button class="btn btn-lan" @click="add">增加</button>
+                </div>
+            </div>
+            <table class="yp-table-datalist text-hui-300">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-2 py-2 border w-10 font-thin">
+                        <th class="w-10">
                             <ypcheckbox value="all" v-model="checkedAll" v-tooltip.top="'全选'"></ypcheckbox>
                         </th>
-                        <th class="px-2 py-2 border w-10 text-center">ID</th>
-                        <th class="px-2 py-2 border text-left">姓名</th>
-                        <th class="px-2 py-2 border text-left">性别</th>
-                        <th class="px-2 py-2 border w-44">联系电话</th>
-                        <th class="px-2 py-2 border w-44">备注</th>
-                        <th class="px-2 py-2 border w-32 text-center">操作</th>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>联系电话</th>
+                        <th>备注</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="hover:bg-gray-100" v-for="(vo,key) in dataList" :key="key">
+                    <tr v-for="(vo,key) in dataList" :key="key" @dblclick="choose_member(vo)">
                       <td class="border px-2">
                         <ypcheckbox :value="vo.id" v-model="selectIds"></ypcheckbox>
                       </td>
-                      <td class="border px-2 text-center">{{vo.id}}</td>
-                      <td class="border px-2">{{ vo.truename }}</td>
-                      <td class="border px-2">
+                      <td>{{vo.id}}</td>
+                      <td>{{ vo.truename }}</td>
+                      <td>
                         <span v-if="vo.sex==1">男</span>    
                         <span v-if="vo.sex==2">女</span>    
-                        <span v-if="vo.sex==3">保密</span>    
-  
-                    
+                        <span v-if="vo.sex==3">保密</span>
                     </td>
-                        <td class="border px-2 text-center">{{ vo.mobile }}</td>
+                        <td>{{ vo.mobile }}</td>
 
-                        <td class="border px-2 text-center">{{ vo.intro }}</td>
-                      <td class="border px-2 py-2 text-center">
-                        <button class="yp-button yp-button-sm rounded-sm mr-2" @click="edit(vo.id)">编辑</button>
-                        <button class="yp-button yp-button-red yp-button-sm rounded-sm" @click="removeItem(vo.id)">删除</button>
+                        <td>{{ vo.intro }}</td>
+                      <td class="space-x-2">
+                        <button class="btn" @click="edit(vo.id)">编辑</button>
+                        <button class="btn btn-hong" @click="removeItem(vo.id)">删除</button>
                       </td>
                     </tr>
                 </tbody>
@@ -50,7 +55,7 @@
                             <ypcheckbox value="all" v-model="checkedAll" v-tooltip.right="'全选'"></ypcheckbox>
                         </td>
                         <td class="border p-2" colspan="6">
-                            <button class="yp-button yp-button-red yp-button-sm rounded-sm" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
+                            <button class="btn btn-hong" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -65,7 +70,12 @@
 <script setup>
     import {getData,postData,confirms,alter} from "@/api/data"
     import {ref,reactive,watch,onMounted} from "vue"
-    const emits=defineEmits(['jumpCom'])
+    const props=defineProps({
+        member:{
+            default:[]
+        }
+    })
+    const emits=defineEmits(['jumpCom','chooseMember'])
     const isLoad=ref(false)
     const add=()=>{
         emits('jumpCom',{to:'add'})
@@ -82,6 +92,9 @@
     }
     //数据对象
     const dataList=reactive([])
+
+    const keywords=ref(null)
+
 
     //复选框
     const selectIds = reactive([])
@@ -101,13 +114,12 @@
     }
 
     const getList=async ()=>{
-        let resp= await getData('member/index',{page:pageData.currentPage})
+        let resp= await getData('member/index',{page:pageData.currentPage,keywords:keywords.value})
         if(resp.code==1){
 
             pageData.currentPage = resp.data.current_page
             pageData.pageCount = resp.data.last_page
             pageData.totalRecords = resp.data.total
-
             dataList.length=0
             for(let i in resp.data.data){
                 dataList[i]=resp.data.data[i]
@@ -138,7 +150,9 @@
             })
             .catch((e) => {})
     }
-
+    const choose_member=(item)=>{
+        emits('chooseMember',item)
+    }
 
     onMounted(() => {
 

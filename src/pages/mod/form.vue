@@ -124,7 +124,7 @@ watch(
 onMounted(async () => {
   let modType = store.getters.modType
   Object.keys(modType).map((key) => {
-    modTypeList.push({ value: key, title: modType[key].name })
+    modTypeList.push({ id: key, title: modType[key].name })
   })
   if (props.modName) {
     const modData = await getData('/mod/getmod',{ name: props.modName })

@@ -115,7 +115,7 @@ const typeOptions = store.getters.colType
 onMounted(() => {
   formItem.length = 0
   store.getters.formItem.forEach((item) => {
-    formItem.push({ value: item.value, title: item.name })
+    formItem.push({ id: item.id, title: item.name })
   })
   isload.value=true
 })

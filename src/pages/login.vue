@@ -28,7 +28,6 @@
                 </div>
               </template>
             </ypinput>
-
             <div class="flex justify-center">
                 <button type="button" class="btn btn-lan w-full" @click="submit">登录</button>
             </div>
