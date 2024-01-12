@@ -13,18 +13,18 @@
     <loading v-if="isLoading" />
 </template>
 <script setup>
-    import { ref,computed, onUnmounted,onMounted } from 'vue'
+    import { computed, onUnmounted} from 'vue'
     import { useStore } from 'vuex'
     const store = useStore()
     let isLoading = computed(() => {
         return store.state.isLoading
     })
-    const video=ref(null)
+
+
+
     onUnmounted(() => {
         localStorage.removeItem('token')
     })
-    onMounted(()=>{
 
-    })
 
 </script>

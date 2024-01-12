@@ -2755,7 +2755,7 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.15:
+lodash-es@^4.17.15, lodash-es@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmmirror.com/lodash-es/-/lodash-es-4.17.21.tgz"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
@@ -4530,6 +4530,13 @@ v-clipboard@^2.2.3:
   resolved "https://registry.npmmirror.com/v-clipboard/-/v-clipboard-2.2.3.tgz"
   integrity sha512-Wg+ObZoYK6McHb5OOCFWvm0R7xHp0/p0G1ocx/8bO22jvA/yVY05rADbfiztwCokXBNfQuGv/XSd1ozcTFgekw==
 
+v-viewer@^3.0.13:
+  version "3.0.13"
+  resolved "https://registry.npmmirror.com/v-viewer/-/v-viewer-3.0.13.tgz"
+  integrity sha512-T8pgGzlF0ZCHVpD/32OKsD8MlpI6tqYP3n1XLcSjvGQMc0ABn8nJ4AumxvzAKVQrLRWtDTG6qRGAyCPCmi7ceA==
+  dependencies:
+    lodash-es "^4.17.21"
+
 verror@1.10.0:
   version "1.10.0"
   resolved "https://registry.npmmirror.com/verror/-/verror-1.10.0.tgz"
@@ -4570,6 +4577,11 @@ videojs-vtt.js@^0.15.5:
   dependencies:
     global "^4.3.1"
 
+viewerjs@^1.11.0:
+  version "1.11.6"
+  resolved "https://registry.npmmirror.com/viewerjs/-/viewerjs-1.11.6.tgz"
+  integrity sha512-TlhdSp2oEOLFXvEp4psKaeTjR5zBjTRcM/sHUN8PkV1UWuY8HKC8n7GaVdW5Xqnwdr/F1OmzLik1QwDjI4w/nw==
+
 "vite@^4.0.0 || ^5.0.0", vite@^4.2.1:
   version "4.5.1"
   resolved "https://registry.npmmirror.com/vite/-/vite-4.5.1.tgz"
@@ -4607,7 +4619,7 @@ vue-tippy@^6.1.2:
   dependencies:
     tippy.js "^6.3.7"
 
-"vue@^3.0.0 || ^2.0.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.45, vue@^3.2.47, vue@3.4.3, vue@3.x:
+vue@^3.0.0, "vue@^3.0.0 || ^2.0.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.45, vue@^3.2.47, vue@3.4.3, vue@3.x:
   version "3.4.3"
   resolved "https://registry.npmmirror.com/vue/-/vue-3.4.3.tgz"
   integrity sha512-GjN+culMAGv/mUbkIv8zMKItno8npcj5gWlXkSxf1SPTQf8eJ4A+YfHIvQFyL1IfuJcMl3soA7SmN1fRxbf/wA==

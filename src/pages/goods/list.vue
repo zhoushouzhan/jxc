@@ -16,14 +16,16 @@
                     <ypselect v-model="searchParam.stone" :itemList="stoneList" defaultTitle="--选择原石--"></ypselect>
                 </div>
                 <div>
-                    <ypinput v-model="searchParam.code" placeholder="条码" @keyup.enter="getList"></ypinput>
-                </div>
-                <div>
-                    <ypinput v-model="searchParam.keyword" placeholder="名称关键词" @keyup.enter="getList"></ypinput>
+                    <ypinput v-model="searchParam.keyword" placeholder="条码|名称" @keyup.enter="getList"></ypinput>
                 </div>
                 <div>
                     <ypinput v-model="searchParam.label" placeholder="标签" @keyup.enter="getList"></ypinput>
                 </div>
+                <div>
+                    <ypselect v-model="searchParam.godown_id" :itemList="godownList" defaultTitle="--所有仓库--"></ypselect>
+                </div>
+
+
                 <div>
                     <button class="btn btn-chen" @click="gosearch">查询</button>
                 </div>
@@ -91,7 +93,7 @@
                         <tr v-for="(item,index) in dataList" :class="{'bg-pink-50':(printBarcode.indexOf(item.id)>=0),'bg-lime-100':(ingodownList.indexOf(item.id)>=0)}">
                             <td><ypcheckbox :value="item.id" v-model="selectIds"></ypcheckbox></td>
                             <td>{{ getOrder(index) }}</td>
-                            <td><img :src="item.thumbFile" class="w-28 h-28 object-cover" @click="openimg(item.thumbFile)"></td>
+                            <td><img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer></td>
                             <td>{{ item.title }}</td>
                             <td>{{ item.category&&item.category.title||'/' }}</td>
                             <td><div v-for="(vo,index) in item.metalInfo">{{ vo.title }}</div></td>
@@ -136,7 +138,6 @@
     import {getData,postData,alter,confirms,Download,authbtn} from '@/api/data'
     import { ref,reactive,onMounted,watch } from 'vue';
     import { useRoute } from 'vue-router'
-    import Linkage from "./linkage"
     const props=defineProps({
         page:{
             default:0
@@ -145,7 +146,6 @@
 
     const emits=defineEmits(['jumpTo'])
     
-
     const route = useRoute()
     const meta = route.meta
 
@@ -183,7 +183,6 @@
         }
     })
 
-    //search
     const searchParam=reactive({
         orderby:'',
         ordersort:'',
@@ -192,14 +191,10 @@
         stone:0,
         code:'',
         keyword:'',
-        label:'',
-        godown:[]
+        label:''
     })
     const dataList=reactive([])
 
-    const openimg=(src)=>{
-        window.open(src)
-    }
     const add=()=>{
         emits('jumpTo',{to:'add',page:searchParam.page})
 
@@ -273,9 +268,17 @@
                 dataList.push(resp.data.data[i])
             }
         }
-        isLoad.value=true
+       
     }
-
+    const get_godown=async()=>{
+        const resp= await getData('godown/index')
+        if(resp.code==1){
+            
+            for(let key in resp.data.data){
+                godownList.push(resp.data.data[key])
+            }
+        }
+    }
     const gosearch=()=>{
         searchParam.page=0
         pageData.currentPage=0
@@ -352,23 +355,15 @@
         }
     }
 
-
-
     onMounted(async() => {
-        const godownres=await getData('/godown/index')
-        if(godownres.code==1){
-            let dataList=godownres.data.data
-            Object.keys(dataList).map((k)=>{
-                godownList[k]=dataList[k]
-            })
-        }
         await classify_stone()
         await getList()
         await get_category()
+        await get_godown()
         document.addEventListener("click",()=>{
             //store.state.isLoading = true
             //checkedAll.length=0
         })
-
+        isLoad.value=true
     })
 </script>

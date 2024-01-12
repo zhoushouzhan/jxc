@@ -94,7 +94,9 @@
                         <tbody v-if="labellist.length">
                             <template v-for="(item,index) in labellist">
                                 <tr class=" hover:bg-gray-100">
-                                    <td><img :src="item.goods.thumbFile" class="max-h-10" @click="openimg(item.goods.thumbFile)"></td>
+                                    <td>
+                                        <img :src="item.goods.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                                    </td>
                                     <td class="whitespace-nowrap">{{ item.title }}</td>
                                     <td>{{ item.goods.code }}</td>
                                     <td>{{ item.goods.label }}</td>
@@ -144,9 +146,7 @@
     
     const hostory=reactive([])
     const labellist=reactive([])
-    const openimg=(src)=>{
-        window.open(src)
-    }
+
     const goback=()=>{
         emits('jumpCom',{to:'list'})
     }

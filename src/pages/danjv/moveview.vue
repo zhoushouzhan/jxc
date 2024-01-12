@@ -2,7 +2,7 @@
     <div class="p-5" v-if="isload">
 
         <div class="text-center">
-            <div class="text-xl px-2">出库单查看</div>
+            <div class="text-xl px-2">调拔单查看</div>
         </div>
         <div>
             
@@ -25,7 +25,6 @@
                             <th class="text-center w-20">序号</th>
                             <th class="w-32">图片</th>
                             <th>名称</th>
-                            <th>零售价</th>
                             <th>数量</th>
                             <th>备注</th>
                         </tr>
@@ -34,19 +33,18 @@
                         <template v-for="(item,index) in res.bill">
                             <tr>
                                 <td class="text-center">{{ index+1 }}</td>
-                                <td><img :src="item.thumbFile" class="w-32 h-32 object-cover" @click="openimg(item.thumbFile)"></td>
+                                <td>
+                                    <img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                                </td>
                                 <td class="space-y-2">
                                     <div>{{ item.title }}</div>
                                     <div>{{ item.code }}</div>
                                 </td>
                                 <td>
-                                    ￥{{ item.sellprice }}
-                                </td>
-                                <td>
                                     {{ item.numbers }}
                                 </td>
                                 <td>
-                                    {{ item.intro }}
+                                    {{ item.intro||'无' }}
                                 </td>
                             </tr>
                         </template>
@@ -55,13 +53,13 @@
             </div>
         </div>
         <div class="flex justify-center py-2 space-x-2 mt-3">
-            <button class="yp-button yp-button-orange rounded" type="button" @click="goback">
+            <button class="btn" type="button" @click="goback">
                 <i class="ri-arrow-go-back-fill ri-lg pr-1"></i>
                 返回
             </button>
-            <button class="yp-button yp-button-black rounded" @click="ypexport">
+            <button class="btn btn-zi">
                 <i class="ri-barcode-line ri-lg pr-1"></i>
-                打印所有条码
+                打印
             </button>
 
         </div>
@@ -69,7 +67,7 @@
 </template>
 
 <script setup>
-    import {getData,confirms,Download,alter} from '@/api/data'
+    import {getData,confirms,Download} from '@/api/data'
     import {ref,reactive,onMounted} from 'vue'
     
     const props=defineProps({
@@ -84,7 +82,6 @@
     const isload=ref(false)
     const res=reactive({})
     const printData=reactive([])
-    const printBarcode=reactive(JSON.parse(sessionStorage.getItem('printBarcode'))||[])
     const read=async(id)=>{
         const resp= await getData('kucundan/read',{id:id})
         if(resp.code==1){
@@ -99,9 +96,6 @@
     }
     const goback=()=>{
         emits('jumpCom',{to:'list'})
-    }
-    const openimg=(src)=>{
-        window.open(src)
     }
 
     //导出选中项目

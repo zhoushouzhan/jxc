@@ -1,10 +1,10 @@
 <template>
   <yplayout v-if="isLoad">
       <template #header>
-          <i class="ri-2x text-gray-500 ml-2 ri-play-list-add-line"></i>
-          <div class="text-xl px-3">增加仓库</div>
+          <i class="ri-2x text-gray-500 ml-2 ri-user-line"></i>
+          <div class="text-xl px-3">增加会员</div>
           <div class="flex-1 flex flex-row-reverse space-x-reverse space-x-2"></div>
-          <button class="yp-button yp-button-sm yp-button-orange rounded-sm" @click="goback">返回</button>
+          <button class="btn btn-chen" @click="goback">返回</button>
       </template>
       <template #list>
           <div class=" bg-white text-sm">
@@ -45,12 +45,10 @@
 
               </div>
               <div class="flex justify-center py-2 space-x-2 mt-5">
-                  <button class="yp-button yp-button-orange rounded" type="button" @click="save">
-                      <i class="ri-save-line ri-lg pr-1"></i>
+                  <button class="btn btn-hong" type="button" @click="save">
                       提交
                   </button>
-                  <button class="yp-button yp-button-gray rounded" type="button" @click="goback">
-                      <i class="ri-format-clear ri-lg pr-1"></i>
+                  <button class="btn" type="button" @click="goback">
                       返回
                   </button>
               </div>

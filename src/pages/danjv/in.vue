@@ -39,7 +39,7 @@
                             <template v-for="(item,index) in formData.bill">
                                 <tr>
                                     <td class="text-center">{{ index+1 }}</td>
-                                    <td class="w-40"><img :src="item.thumbFile" class=" object-cover"></td>
+                                    <td class="w-40"><img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer></td>
                                     <td>
                                         <div>{{ item.title }}</div>
                                         <div class="text-red-600 font-bold">{{ item.code }}</div>

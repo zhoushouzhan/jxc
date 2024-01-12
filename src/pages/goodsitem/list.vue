@@ -16,8 +16,14 @@
                     <yplist controller="factory" v-model="searchParams.factory_id" colkey="title" defaultTitle="--选择厂商--"></yplist>
                 </div>
                 <div>
-                    <ypselect v-model="searchParams.status" :itemList="statusList" defaultTitle="--选择状态--"></ypselect>
+                    <ypselect v-model="searchParams.status" :itemList="statusList" defaultTitle="--所有状态--"></ypselect>
                 </div>
+                <div>
+                    <ypselect v-model="searchParams.godown_id" :itemList="godownList" defaultTitle="--所有仓库--"></ypselect>
+                </div>
+
+
+
                 <div>
                     <button class="btn btn-chen" @click="tosearch">查询</button>
                 </div>
@@ -43,6 +49,7 @@
                             </div>
                         </th>
                         <th>销售价</th>
+                        <th>利润</th>
                         <th>条码</th>
                         <th>状态</th>
                         <th>入库时间</th>
@@ -54,13 +61,16 @@
                     <tr>
                         <td></td>
                         <td>{{ index+1 }}</td>
-                        <td><img :src="item.goods.thumbFile" class="h-28 w-28 object-cover" @click="openimg(item.goods.thumbFile)"></td>
+                        <td>
+                            <img :src="item.goods.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                        </td>
                         <td>{{ item.title }}</td>
                         <td>{{ item.category.title }}</td>
                         <td>{{ item.godown.title }}</td>
                         <td>{{ item.goods.factory.title }}</td>
                         <td>￥{{ item.inprice }}</td>
                         <td>￥{{ item.sellprice }}</td>
+                        <td>￥{{ item.profit }}</td>
                         <td>{{ item.code }}</td>
                         <td>
                             <span v-if="item.status==1" class="bg-green-600 text-white px-2 py-1 rounded">正常</span>
@@ -99,15 +109,15 @@
     const route = useRoute()
     const meta = route.meta
     const isload=ref(false)
-
+    const godownList=reactive([])
 
 
     //分页
     const pageData=reactive({
-        pagelimit:30,
+        pagelimit:0,
         totalRecords:0,//总记录数
         pageCount:0,//总页数
-        currentPage:1//当前页
+        currentPage:0//当前页
     });
     const topage = (page) => {
         searchParams.page=page
@@ -116,7 +126,6 @@
     }
 
     const statusList=reactive([
-        {id:0,title:'全部'},
         {id:1,title:'正常'},
         {id:2,title:'异常'},
         {id:3,title:'出售中'},
@@ -143,22 +152,17 @@
     const getList=async()=>{
         const resp= await getData("goodsitem/index",searchParams)
         if(resp.code==1){
+            dataList.length=0
             pageData.currentPage = resp.data.current_page
             pageData.pageCount = resp.data.last_page
             pageData.totalRecords = resp.data.total
             pageData.pagelimit=resp.data.per_page
-            dataList.length=0
+           
             resp.data.data.map((item,index)=>{
                 dataList.push(item)
             })
         }
     }
-
-
-    const openimg=(src)=>{
-        window.open(src)
-    }
-
     const tosearch=async()=>{
         await getList()
     }
@@ -178,6 +182,18 @@
         })
         .catch((e) => {})
     }
+
+    const get_godown=async()=>{
+        const resp= await getData('godown/index')
+        if(resp.code==1){
+            
+            for(let key in resp.data.data){
+                godownList.push(resp.data.data[key])
+            }
+        }
+    }
+
+
     //权限按钮
     const isbtn = (btn) => {
         const modname = meta.mod.name
@@ -191,6 +207,7 @@
 
     onMounted(async()=>{
         await getList()
+        await get_godown()
         isload.value=true
     })
 

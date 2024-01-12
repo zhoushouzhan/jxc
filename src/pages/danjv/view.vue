@@ -46,7 +46,9 @@
                         <template v-for="(item,index) in res.bill">
                             <tr>
                                 <td class="text-center">{{ index+1 }}</td>
-                                <td><img :src="item.thumbFile" class="w-32 h-32 object-cover" @click="openimg(item.thumbFile)"></td>
+                                <td>
+                                    <img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                                </td>
                                 <td>{{ item.title }}</td>
                                 <td>{{ item.code }}</td>
                                 <td>
@@ -97,7 +99,6 @@
     const isload=ref(false)
     const res=reactive({})
     const printData=reactive([])
-    const printBarcode=reactive(JSON.parse(sessionStorage.getItem('printBarcode'))||[])
     const read=async(id)=>{
         const resp= await getData('kucundan/read',{id:id})
         if(resp.code==1){
@@ -113,10 +114,6 @@
     const goback=()=>{
         emits('jumpCom',{to:'list'})
     }
-    const openimg=(src)=>{
-        window.open(src)
-    }
-
     //导出选中项目
     const ypexport = async() => {
         confirms({ text: '确定生成吗？' })
@@ -144,18 +141,11 @@
             console.log('no',e)
         })
     }
-
-
-
-
-
     onMounted(async () => {
         if(props.id){
            await read(props.id)
         }
-        
         isload.value=true
-
     })
 
 </script>

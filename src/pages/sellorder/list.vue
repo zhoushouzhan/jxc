@@ -40,7 +40,7 @@
                         <ypcheckbox :value="vo.id" v-model="selectIds"></ypcheckbox>
                       </td>
                       <td>{{vo.id}}</td>
-                      <td>{{ vo.member.truename }}</td>
+                      <td>{{ vo.member.truename||'无' }}</td>
                       <td>{{ vo.sn }}</td>
                       <td>{{ vo.goodsCount }}</td>
                       <td>

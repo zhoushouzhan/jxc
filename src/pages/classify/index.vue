@@ -16,51 +16,53 @@
         <div class="text-gray-400">用于菜单，联动，等</div>
       </div>
       <div class="flex-1"></div>
-      <button class="yp-button yp-button-darkgreen h-[33px]" type="button" @click="add()">
-        <i class="ri-add-line ri-lg pr-1"></i>
-        增加
-      </button>
     </template>
     <template #list>
       <div class="overflow-auto">
-        <div class="flex space-x-2 p-2">
+        <div class="flex items-center space-x-2 p-2">
           <div>路径：</div>
           <div class="flex">
             <div class="text-gray-500 hover:text-blue-500 hover:cursor-pointer" @click="getson({id:0,havesid:1}),pathinfo.length=0">顶级</div>
             <div v-for="(item,index) in pathinfo" class="text-gray-500 hover:text-blue-500 hover:cursor-pointer" @click="getson(item)"><span class="px-2 text-gray-300">></span>{{ item.title }}</div>
           </div>
+          <div class="flex-1"></div>
+          <div>
+            <button class="btn btn-lan" type="button" @click="add()">
+              增加
+            </button>
+          </div>
         </div>
-        <table class="table-auto w-full text-sm min-w-[800px]">
+        <table class="yp-table-datalist text-hui-300">
           <thead class="bg-gray-100 font-thin">
             <tr>
-              <th class="p-2 border w-10">ID</th>
-              <th class="p-2 border text-left">名称</th>
-              <th class="px-2 py-2 border w-32 text-center">操作</th>
+              <th class="p-2">ID</th>
+              <th>名称</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>
             <tr class="hover:bg-gray-100" v-for="(item,index) in dataList">
-              <td class="border p-2 text-center">{{ item.id }}</td>
-              <td class="border p-2 cursor-pointer" v-if="item.havesid" @click="getson(item)">
+              <td>{{ item.id }}</td>
+              <td v-if="item.havesid" @click="getson(item)">
                 <div class="flex space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 fill-[#FFD96F]"><path d="M4 5V19H20V7H11.5858L9.58579 5H4ZM12.4142 5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H10.4142L12.4142 5Z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 fill-[#FFD96F]"><path d="M4 5V19H20V7H11.5858L9.58579 5H4ZM12.4142 5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H10.4142L12.4142 5Z"></path></svg>
                   <div>
                     {{ item.title }}
                   </div>
                 </div>
               </td>
-              <td class="border p-2" v-else @click="getson(item)">
+              <td v-else @click="getson(item)">
                 <div class="flex space-x-2">
                   <div>
                     {{ item.title }}
                   </div>
                 </div>
               </td>
-              <td class="border p-2">
+              <td>
                 <div class="flex space-x-2">
-                  <button class="yp-button yp-button-sm rounded" @click="edit(item)" v-tooltip.left="'编辑'"><i class="ri-edit-box-line"></i></button>
-                  <button class="yp-button yp-button-sm yp-button-orange rounded" @click="add(item)" v-tooltip.top="'增加子级'"><i class="ri-add-line"></i></button>
-                  <button class="yp-button yp-button-sm yp-button-red rounded" @click="destory(item.id)" v-tooltip.top="'删除'"><i class="ri-delete-bin-4-line"></i></button>
+                  <button class="btn btn-small" @click="edit(item)">编辑</button>
+                  <button class="btn btn-chen btn-small" @click="add(item)">增加子级</button>
+                  <button class="btn btn-hong btn-small" @click="destory(item.id)">删除</button>
                 </div>
               </td>
             </tr>

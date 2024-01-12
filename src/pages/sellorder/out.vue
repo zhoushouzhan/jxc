@@ -55,7 +55,9 @@
                                 <template v-for="(item,index) in formData.bill">
                                     <tr>
                                         <td class="text-center">{{ index+1 }}</td>
-                                        <td class="w-40"><img :src="item.thumbFile" class="object-cover" @click="openimg(item.thumbFile)"></td>
+                                        <td class="w-40">
+                                            <img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                                        </td>
                                         <td>{{ item.title }}</td>
                                         <td>{{ item.code }}</td>
                                         <td><ypinput v-model="item.sellprice" placeholder="请输入零售价" :min="item.storeprice" :max="item.labelprice"></ypinput></td>
@@ -136,13 +138,17 @@
         if(barcode.value==''){
             return
         }
-        const resp= await getData('goods/details',{code:barcode.value})
+        const resp= await getData('goods/details',{code:barcode.value,godown_id:formData.godown_id})
         if(resp.code==1){
+            if(resp.data.stock==0){
+                alter({ type: 'alter-error', text: '库存不足'})
+                return
+            }
             let item={
                 goods_id:resp.data.id,
                 title:resp.data.title,
                 godown_id:formData.godown_id,
-                category_id:resp.data.category.id,
+                category_id:resp.data.category_id,
                 thumbFile:resp.data.thumbFile,
                 storeprice:resp.data.storeprice.toString().replace(/,/g,''),
                 labelprice:resp.data.labelprice.toString().replace(/,/g,''),
@@ -162,7 +168,7 @@
         formData.splice(index,1)
     }
     const get_godown=async()=>{
-        const resp= await getData('/godown/index')
+        const resp= await getData('godown/index')
         if(resp.code==1){
             
             for(let key in resp.data.data){

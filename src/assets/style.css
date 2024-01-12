@@ -221,9 +221,7 @@ input::-webkit-input-placeholder {
   .authrule .pre-item {
     @apply py-2 border-b cursor-pointer hover:bg-gray-100;
   }
-  .modbox {
-    @apply bg-white p-2 text-sm h-full box-border min-w-[1200px];
-  }
+
   /*dialog*/
   .dialog {
     @apply absolute bg-white shadow-md rounded p-3;

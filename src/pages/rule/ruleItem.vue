@@ -15,9 +15,9 @@
     <div class="md:w-32 pl-2 hidden md:block text-center"> <i :class="item.icon" class="ri-lg"></i></div>
     <div class="md:w-32 pl-2 hidden md:block text-center"> {{item.sort}}</div>
     <div class="md:w-32 pl-2 hidden md:block text-center">{{item.status?'开启':'关闭'}}</div>
-    <div class="text-center space-x-2 px-1 w-40" v-if="item.mod!='category'">
-      <button class="yp-button yp-button-sm rounded" @click="setcom.edit(item.id)">编辑</button>
-      <button class="yp-button yp-button-sm yp-button-red rounded" @click="setcom.destory(item.id)">删除</button>
+    <div class="text-center space-x-2 px-1 w-40 leading-none flex items-center" v-if="item.mod!='category'">
+      <button type="button" class="btn btn-lan" @click="setcom.edit(item.id)">编辑</button>
+      <button type="button" class="btn btn-hong" @click="setcom.destory(item.id)">删除</button>
     </div>
   </div>
 </template>

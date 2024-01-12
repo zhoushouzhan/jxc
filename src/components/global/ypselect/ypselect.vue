@@ -54,7 +54,6 @@
   
   watch(chitem, (newVal, oldVal) => {
     topname.value = newVal.title
-    console.log(newVal)
     emit('update:modelValue', newVal.id+'')
     show.value = false
   })

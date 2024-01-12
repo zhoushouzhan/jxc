@@ -100,7 +100,6 @@
 <script setup>
     import {getData,postData,alter} from '@/api/data'
     import {ref,reactive,onMounted} from "vue"
-    import Linkage from "./linkage"
     import Sclass from "./sclass.vue"
     const props=defineProps({
         id:{
@@ -161,7 +160,6 @@
             }
         }
     }
-
     const detail=async(id)=>{
         if(!id){
             return
@@ -172,9 +170,7 @@
                 formData[k]=resp.data[k]
             })
         }
-        
     }
-
 
     onMounted(async() => {
         classify_metal()

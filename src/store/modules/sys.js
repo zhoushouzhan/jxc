@@ -46,7 +46,7 @@ export default {
   actions: {
     async getSys(ctx, value) {
       let data;
-      const resp = await axios.get("/index/getsite", { name: value });
+      const resp = await axios.get("index/getsite", { name: value });
       data = resp.data;
       if (resp.code == 1) {
         ctx.commit("setSys", resp.data);

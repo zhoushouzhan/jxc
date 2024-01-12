@@ -47,7 +47,9 @@
                                 <template v-for="(item,index) in formData.bill">
                                     <tr>
                                         <td class="text-center">{{ index+1 }}</td>
-                                        <td class="w-40"><img :src="item.thumbFile" class="object-cover" @click="openimg(item.thumbFile)"></td>
+                                        <td class="w-40">
+                                            <img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                                        </td>
                                         <td>{{ item.title }}</td>
                                         <td>{{ item.code }}</td>
                                         <td>{{ item.storeprice }}</td>
@@ -105,7 +107,7 @@
     const formData=reactive({
         godown_id:0,
         out_godown_id:0,
-        enabled:1,
+        enabled:0,
         type:3,
         member_id:null,
         bill:[]
@@ -118,22 +120,28 @@
         if(barcode.value==''){
             return
         }
-        const resp= await getData('goodsitem/details',{code:barcode.value,godown_id:formData.out_godown_id})
+        const resp= await getData('goods/details',{code:barcode.value,godown_id:formData.out_godown_id})
         if(resp.code==1){
+
+            if(resp.data.stock==0){
+                alter({ type: 'alter-error', text: '库存不足'})
+                return
+            }
+
             let item={
-                goods_id:resp.data.goods.id,
-                title:resp.data.goods.title,
+                goods_id:resp.data.id,
+                title:resp.data.title,
                 godown_id:formData.godown_id,
                 category_id:resp.data.category.id,
-                thumbFile:resp.data.goods.thumbFile,
-                storeprice:resp.data.goods.storeprice.toString().replace(/,/g,''),
-                labelprice:resp.data.goods.labelprice.toString().replace(/,/g,''),
-                stock:resp.data.goods.stock,
+                thumbFile:resp.data.thumbFile,
+                storeprice:resp.data.storeprice.toString().replace(/,/g,''),
+                labelprice:resp.data.labelprice.toString().replace(/,/g,''),
+                stock:resp.data.stock,
                 intro:'',
                 status:0,
-                sellprice:resp.data.goods.labelprice.toString().replace(/,/g,''),
+                sellprice:resp.data.labelprice.toString().replace(/,/g,''),
                 numbers:1,
-                code:resp.data.goods.code
+                code:resp.data.code
             }
             formData.bill.unshift(item)
             barcode.value=''
@@ -152,7 +160,6 @@
             }
         }
     }
-
     const save=async()=>{
         const resp= await postData('kucundan/save',formData)
         if(resp.code==1){
@@ -166,13 +173,10 @@
         if(resp.code==1){
             formData.id=id
             formData.godown_id=resp.data.godown_id
+            formData.out_godown_id=resp.data.out_godown_id
             formData.type=resp.data.type
             formData.bill=resp.data.bill
         }
-    }
-
-    const openimg=(src)=>{
-        window.open(src)
     }
 
     onMounted(async() => {

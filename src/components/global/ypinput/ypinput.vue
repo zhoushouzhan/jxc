@@ -11,7 +11,7 @@
     <div>
         <div class="flex items-center bg-white rounded px-2 border text-sm duration-200 space-x-1 relative" :class="{'border-lan-200':input.status==1,'border-hong-300':errormsg}">
             <slot name="prefix"></slot>
-            <input :type="type" class="h-8 outline-none text-hui-300 placeholder:text-hui-100 placeholder:font-light flex-1 text-base" v-model="inputValue" @input="updateVal" @blur="inputBlur" :placeholder="placeholder" @focus="input.status=1">
+            <input :type="type" class="h-8 outline-none text-hui-300 placeholder:text-hui-100 placeholder:font-light flex-1" v-model="inputValue" @input="updateVal" @blur="inputBlur" :placeholder="placeholder" @focus="input.status=1">
             <slot name="suffix">
                 <div v-if="maxlength&&type!='number'" class="text-hui-100 text-xs">
                     <span>{{ inputValue.length }}</span>

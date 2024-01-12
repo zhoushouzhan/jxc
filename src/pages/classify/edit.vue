@@ -32,11 +32,11 @@
 
         </div>
         <div class="flex justify-center py-3 space-x-2">
-          <button class="yp-button yp-button-orange rounded" type="button" @click="emits('update',formData)">
+          <button class="btn btn-chen" type="button" @click="emits('update',formData)">
             <i class="ri-save-line ri-lg pr-1"></i>
             保存
           </button>
-          <button class="yp-button yp-button-gray rounded" type="button" @click="emits('close')">
+          <button class="btn" type="button" @click="emits('close')">
             <i class="ri-arrow-go-back-fill mr-1"></i>
             取消
           </button>

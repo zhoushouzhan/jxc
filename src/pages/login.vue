@@ -2,32 +2,34 @@
  * @Author: 一品技术 5166651888@163.com
  * @Date: 2023-12-31 19:38:15
  * @LastEditors: 一品技术 5166651888@163.com
- * @LastEditTime: 2024-01-02 13:53:34
+ * @LastEditTime: 2024-01-09 22:08:07
  * @FilePath: /jxcui/src/pages/login.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-    <div class="w-full h-full flex justify-center select-none" @keyup.enter="submit">
-        <div class="lg:w-[500px] max-lg:w-full space-y-4 absolute left-1/2 -translate-x-1/2 top-20 bg-white p-10 bg-opacity-65 rounded-lg">
+    <div class="w-full h-full flex justify-center select-none bg-hui-50">
+        <div class="lg:w-[500px] max-lg:w-4/5 space-y-2 absolute left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 bg-white p-10 rounded-lg">
             <div class="flex justify-center">
                 <img src="@/assets/logo.png" class="h-16 object-cover">
             </div>
             <div class="text-center font-bold text-hui-300">泽玛珠宝</div>
             <div class="py-2"></div>
-            <ypinput v-model="formData.username" :errormsg="formVerify.username" maxlength="22" placeholder="输入账号">
-              <template v-slot:prefix>
-                <div class="text-hui-100 pr-1">
-                  <i class="ri-user-fill ri-lg"></i>
-                </div>
-              </template>
-            </ypinput>
-            <ypinput type="password" v-model="formData.password" :errormsg="formVerify.password" maxlength="22" placeholder="输入密码">
-              <template v-slot:prefix>
-                <div class="text-hui-100 pr-1">
-                  <i class="ri-lock-fill ri-lg"></i>
-                </div>
-              </template>
-            </ypinput>
+          
+              <ypinput v-model="formData.username" :errormsg="formVerify.username" maxlength="22"  placeholder="输入账号">
+                <template v-slot:prefix>
+                  <div class="text-hui-100 pr-1">
+                    <i class="ri-user-fill ri-lg"></i>
+                  </div>
+                </template>
+              </ypinput>
+              <ypinput type="password" v-model="formData.password" :errormsg="formVerify.password" maxlength="22" placeholder="输入密码">
+                <template v-slot:prefix>
+                  <div class="text-hui-100 pr-1">
+                    <i class="ri-lock-fill ri-lg"></i>
+                  </div>
+                </template>
+              </ypinput>
+
             <div class="flex justify-center">
                 <button type="button" class="btn btn-lan w-full" @click="submit">登录</button>
             </div>

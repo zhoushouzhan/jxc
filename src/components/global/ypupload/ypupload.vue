@@ -112,8 +112,6 @@ onMounted(() => {
   })
   uploader.bind('Error',(up,arg)=>{
 
-    console.log('error')
-
 
     
   })

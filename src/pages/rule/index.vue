@@ -16,8 +16,7 @@
         <div class="text-gray-400"></div>
       </div>
       <div class="flex-1"></div>
-      <button class="yp-button yp-button-orange rounded" type="button" @click="add">
-        <i class="ri-add-line ri-lg pr-1"></i>
+      <button class="btn btn-lan" type="button" @click="add">
         增加菜单
       </button>
     </template>
@@ -67,7 +66,7 @@ const edit = (id) => {
   VisibleDialog.value = true
 }
 const getList = async () => {
-  const resp = await getData('/rule/index')
+  const resp = await getData('rule/index')
   dataList.value = resp.data
 }
 provide('setcom', {
@@ -79,7 +78,7 @@ provide('setcom', {
   destory: (id) => {
     confirms({ text: '确认删除吗？' })
       .then(async () => {
-        const resp= await postData('/rule/delete',{id:id})
+        const resp= await postData('rule/delete',{id:id})
         if (resp.code == 1) {
           alter({ type: 'alter-success', text: resp.msg })
           getList()

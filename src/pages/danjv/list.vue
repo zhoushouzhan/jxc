@@ -8,9 +8,13 @@
             <div class="flex items-center justify-between">
                 <div class="space-x-2">
                     <button class="btn" :class="{'btn-zi':type==1&&!enabled}" @click="getTypeData(1)">入库单</button>
-                    <button class="btn" :class="{'btn-zi':type==1&&enabled==1}" @click="getTypeData(1,1)">入库核验单</button>
+                    <button class="btn" :class="{'btn-zi':type==1&&enabled==1}" @click="getTypeData(1,1)">入库核验单<span class="text-hong-300 px-2 font-bold"  :class="{'text-white':type==1&&enabled==1}" v-if="incount">({{ incount }})</span></button>
 
+                    <button class="btn" :class="{'btn-zi':type==3&&!enabled}" @click="getTypeData(3)">调拔单</button>
+                    <button class="btn" :class="{'btn-zi':type==3&&enabled==1}" @click="getTypeData(3,1)">调拔核验单<span class="text-hong-300 px-2 font-bold"  :class="{'text-white':type==3&&enabled==1}" v-if="movecount">({{ movecount }})</span></button>
                 </div>
+
+
                 <div class="flex space-x-2">
                     <div>
                         <button class="btn btn-lan" @click="emits('jumpCom',{to:'in'})">增加入库单</button>
@@ -58,7 +62,7 @@
                       <td class="border px-2 py-2 text-center">
                         <button class="btn btn-lan mr-2" @click="edit(vo)" v-if="vo.enabled==0">编辑</button>
                         <button class="btn mr-2" @click="view(vo)" v-else>查看</button>
-                        <button class="btn btn-zi mr-2" @click="checkorder(vo.id)" v-if="isbtn('enabled')&&vo.enabled==0">核验</button>
+                        <button class="btn btn-zi mr-2" @click="checkorder(vo)" v-if="isbtn('enabled')&&vo.enabled==0">核验</button>
                         <button class="btn btn-hong" @click="removeItem(vo.id)" v-if="vo.enabled==0">删除</button>
                       </td>
                     </tr>
@@ -98,7 +102,8 @@
     const type=ref(1)
     const enabled=ref(null)
     const isLoad=ref(false)
-
+    const incount=ref(0)
+    const movecount=ref(0)
     //分页
     const  pageData=reactive({
         totalRecords:0,//总记录数
@@ -135,23 +140,27 @@
         if(obj.type==1){
             emits('jumpCom',{to:'in',id:obj.id,page:pageData.currentPage})
         }
-        if(obj.type==2){
-            emits('jumpCom',{to:'out',id:obj.id,page:pageData.currentPage})
+        if(obj.type==3){
+            emits('jumpCom',{to:'move',id:obj.id,page:pageData.currentPage})
         }
-
     }
     const view=(vo)=>{
         if(vo.type==1){
             emits('jumpCom',{to:'view',id:vo.id,page:pageData.currentPage})
         }
-        if(vo.type==2){
-            emits('jumpCom',{to:'outview',id:vo.id,page:pageData.currentPage})
+        if(vo.type==3){
+            emits('jumpCom',{to:'moveview',id:vo.id,page:pageData.currentPage})
         }
         
    
     }
-    const checkorder=(id)=>{
-        emits('jumpCom',{to:'checkorder',id:id,page:pageData.currentPage})
+    const checkorder=(vo)=>{
+        if(vo.type==1){
+            emits('jumpCom',{to:'checkorder',id:vo.id,page:pageData.currentPage})
+        }
+        if(vo.type==3){
+            emits('jumpCom',{to:'checkmove',id:vo.id,page:pageData.currentPage})
+        }
     }
 
     const getList=async ()=>{
@@ -167,7 +176,7 @@
                 dataList[i]=resp.data.data[i]
             }
         }
-        isLoad.value=true
+       
     }
 
     //回收站删除
@@ -202,11 +211,18 @@
             return false
         }
     }
+    //检测单据状态
+    const globalstatus=async()=>{
+        const resp= await getData('kucundan/globalstatus')
+        if(resp.code==1){
+            incount.value=resp.data.incount
+            movecount.value=resp.data.movecount
+        }
+    }
+    onMounted(async() => {
 
-    onMounted(() => {
-
-        getList()
-
-
+        await getList()
+        await globalstatus()
+        isLoad.value=true
     })
 </script>

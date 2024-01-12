@@ -17,14 +17,9 @@
       </div>
       <div class="flex-1"></div>
       <div class="hidden md:block">
-        <div class="flex">
-          <ypinput v-model="keyword" placeholder="名称"></ypinput>
-          <button class="yp-button yp-button-gray h-[33px] rounded-r" type="button" @click="getDataList">
-            <i class="ri-search-line ri-lg pr-1"></i>
-            查询
-          </button>
-          <button class="yp-button rounded h-[33px] ml-4" type="button" @click="add">
-            <i class="ri-add-line ri-lg pr-1"></i>
+        <div class="flex space-x-2">
+          <ypinput v-model="keyword" placeholder="名称" @keyup.enter="getDataList"></ypinput>
+          <button class="btn btn-lan" type="button" @click="add">
             增加图标
           </button>
         </div>
@@ -41,65 +36,64 @@
   </yplayout>
 </template>
 <script setup>
-import {getData,postData,alter,confirms} from "@/api/data"
-import useClipboard from 'vue-clipboard3'
-import { ref, reactive, watch } from 'vue'
-import Add from './add'
-import Edit from './edit'
-const { toClipboard } = useClipboard()
-const dataList = reactive({ list: [] })
-const keyword = ref('')
+  import {getData,postData,alter,confirms} from "@/api/data"
+  import useClipboard from 'vue-clipboard3'
+  import { ref, reactive, watch } from 'vue'
+  import Add from './add'
+  import Edit from './edit'
+  const { toClipboard } = useClipboard()
+  const dataList = reactive({ list: [] })
+  const keyword = ref('')
 
-const props = defineProps({
-  mod: {
-    default: 0
-  },
-  meta: { default: '' }
-})
+  const props = defineProps({
+    mod: {
+      default: 0
+    },
+    meta: { default: '' }
+  })
 
-const emit = defineEmits(['jumpCom', 'choice'])
+  const emit = defineEmits(['jumpCom', 'choice'])
 
-const add = () => {
-  emit('jumpCom', { to: Add, item: {} })
-}
-const edit = (item) => {
-  emit('jumpCom', { to: Edit, item: item })
-}
-const copy = async (str) => {
-  if (props.mod == 1) {
-    emit('choice', str)
-    return
+  const add = () => {
+    emit('jumpCom', { to: Add, item: {} })
+  }
+  const edit = (item) => {
+    emit('jumpCom', { to: Edit, item: item })
+  }
+  const copy = async (str) => {
+    if (props.mod == 1) {
+      emit('choice', str)
+      return
+    }
+    try {
+      await toClipboard(str)
+      alter({ type: 'alter-success', text: '复制成功' })
+    } catch (e) {
+      alter({ type: 'alter-error', text: '复制失败' })
+    }
   }
 
-  try {
-    await toClipboard(str)
-    alter({ type: 'alter-success', text: '复制成功' })
-  } catch (e) {
-    alter({ type: 'alter-error', text: '复制失败' })
+  const destory = (id) => {
+      confirms({ text: '确认删除吗？' })
+      .then(async () => {
+        const res= await postData('/icon/delete', { id: id })
+        if (res.code) {
+          alter({ type: 'alter-success', text: res.msg })
+          getDataList()
+        } else {
+          alter({ type: 'alter-error', text: res.msg })
+        }
+      })
+      .catch((e) => {})
   }
-}
-
-const destory = (id) => {
-    confirms({ text: '确认删除吗？' })
-    .then(async () => {
-      const res= await postData('/icon/delete', { id: id })
-      if (res.code) {
-        alter({ type: 'alter-success', text: res.msg })
-        getDataList()
-      } else {
-        alter({ type: 'alter-error', text: res.msg })
-      }
-    })
-    .catch((e) => {})
-}
-watch(keyword, (newVal, oldVal) => {
-  if (!newVal) {
-    getDataList()
+  watch(keyword, (newVal, oldVal) => {
+    if (!newVal) {
+      getDataList()
+    }
+  })
+  const getDataList = async () => {
+    const res= await getData('/icon', { keyword: keyword.value })
+    dataList.list = res.data
   }
-})
-const getDataList = async () => {
-  const res= await getData('/icon', { keyword: keyword.value })
-  dataList.list = res.data
-}
-getDataList()
+  getDataList()
 </script>

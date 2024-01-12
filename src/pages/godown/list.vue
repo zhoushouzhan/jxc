@@ -4,7 +4,7 @@
             <i class="ri-2x ri-yuque-fill text-gray-500 ml-2"></i>
             <div class="text-xl px-3" v-html="head.meta.title"></div>
             <div class="flex-1 flex flex-row-reverse space-x-reverse space-x-2"></div>
-            <button class="yp-button yp-button-sm yp-button-purple rounded-sm" @click="add">增加</button>
+            <button class="btn btn-chen" @click="add">增加</button>
         </template>
         <template #list>
             <table class="table-auto w-full text-sm">
@@ -16,8 +16,8 @@
                         <th class="px-2 py-2 border w-10 text-center">ID</th>
                         <th class="px-2 py-2 border text-left">名称</th>
                         <th class="px-2 py-2 border text-left">仓管</th>
-                        <th class="px-2 py-2 border w-44">总计</th>
-                        <th class="px-2 py-2 border w-32 text-center">操作</th>
+                        <th class="px-2 py-2 border w-44">商品数量</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,13 +27,13 @@
                       </td>
                       <td class="border px-2 text-center">{{vo.id}}</td>
                       <td class="border px-2">{{ vo.title }}</td>
-                      <td class="border px-2 space-x-2 text-sm text-white">
-                        <span class="space-x-2 bg-gray-800 rounded px-1 py-1" v-for="(item,index) in vo.adminlist">{{ item.truename }}</span>
+                      <td class="border px-2 space-x-2 text-sm">
+                        <span class="space-x-2" v-for="(item,index) in vo.adminlist">{{ item.truename }}</span>
                       </td>
-                      <td class="border px-2">{{ vo.count }}</td>
-                      <td class="border px-2 py-2 text-center">
-                        <button class="yp-button yp-button-sm rounded-sm mr-2" @click="edit(vo.id)">编辑</button>
-                        <button class="yp-button yp-button-red yp-button-sm rounded-sm" @click="removeItem(vo.id)">删除</button>
+                      <td class="border px-2 text-center">{{ vo.goodsitem_count }}</td>
+                      <td class="border px-2 py-2 text-center space-x-2">
+                        <button class="btn btn-lan" @click="edit(vo.id)">编辑</button>
+                        <button class="btn btn-hong" @click="removeItem(vo.id)">删除</button>
                       </td>
                     </tr>
                 </tbody>
@@ -43,7 +43,7 @@
                             <ypcheckbox value="all" v-model="checkedAll" v-tooltip.right="'全选'"></ypcheckbox>
                         </td>
                         <td class="border p-2" colspan="6">
-                            <button class="yp-button yp-button-red yp-button-sm rounded-sm" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
+                            <button class="btn btn-hong" @click="removeItem(0)" v-tooltip.bottom="'批量删除'">批量删除</button>
                         </td>
                     </tr>
                 </tfoot>

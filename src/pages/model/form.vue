@@ -17,7 +17,7 @@
       </div>
     </template>
     <template #list>
-      <div class="bg-white">
+      <div>
         <ypform :formData="formData" :group="mod.colgroup" :mod="mod" @save="save" v-if="isload"></ypform>
       </div>
     </template>

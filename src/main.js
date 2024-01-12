@@ -19,8 +19,8 @@ import "remixicon/fonts/remixicon.css";
 
 import tooltip from "@/directive/tooltip/directive.js";
 import drag from "@/directive/drag/directive.js";
-
-
+import VueViewer, { directive as viewerDirective } from 'v-viewer';
+import 'viewerjs/dist/viewer.css';
 
 const app = createApp(App);
 
@@ -32,4 +32,6 @@ app.use(components);
 
 app.use(tooltip);
 app.use(drag);
+app.use(VueViewer)
+app.directive('viewer');
 app.mount("#app");

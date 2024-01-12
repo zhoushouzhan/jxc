@@ -13,7 +13,7 @@
       <nav class="bg-grey-light rounded-md w-full" aria-label="breadcrumb">
         <ol class="list-reset flex">
           <template v-for="(item,index) in breadcrumbs.list" :key="index">
-            <li :class="{'text-lime-600 font-bold':index==breadcrumbs.list.length-1}">
+            <li :class="{'text-lan-300':index==breadcrumbs.list.length-1}">
               {{item.meta.title}}
             </li>
             <li v-if="index < breadcrumbs.list.length-1"><span class="text-gray-600 mx-2">/</span></li>

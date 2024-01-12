@@ -9,6 +9,7 @@
     import Moveview from "./moveview.vue"
     import View from "./view.vue"
     import Checkorder from "./checkorder.vue"
+    import Checkmove from "./checkmove.vue"
     import { shallowRef } from 'vue'
     const Id=ref(0)
     const page=ref(0)
@@ -49,6 +50,12 @@
             page.value=obj.page
             componentId.value=Checkorder
         }
+        if(obj.to=='checkmove'){
+            Id.value=obj.id
+            page.value=obj.page
+            componentId.value=Checkmove
+        }
+
         if(obj.to=='list'){
             Id.value=0
             componentId.value=List

@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup>
-  import { ref,reactive,onMounted } from 'vue';
+  import { ref,reactive,onMounted,watch } from 'vue';
   const props = defineProps({
     pageData: {
       type: Object
@@ -42,6 +42,11 @@
     emit('topage',i)
     resetPageArea()
   }
+
+  watch(props.pageData,(n)=>{
+    resetPageArea()
+  })
+
   const resetPageArea=()=>{
     pagearea.length=0
     if(props.pageData.currentPage>3&&props.pageData.currentPage+3<props.pageData.pageCount){

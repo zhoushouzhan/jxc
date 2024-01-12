@@ -74,11 +74,11 @@
 <script setup>
 import store from '@/store'
 import { getData, postData, alter, confirms } from '@/api/data'
-import { ref, reactive, watch, onMounted, shallowRef } from 'vue'
+import { ref, reactive, onMounted, shallowRef } from 'vue'
 import Form from './form.vue'
 const formItem = reactive([])
 store.getters.formItem.forEach((item) => {
-  formItem.push({ id: item.value, title: item.name })
+    formItem.push({ id: item.id, title: item.name })
 })
 
 
@@ -88,61 +88,61 @@ const colId = ref(0)
 const dataList = reactive([])
 
 //分页
-const  pageData=reactive({
-  totalRecords:0,//总记录数
-  pageCount:0,//总页数
-  currentPage:1//当前页
- });
- const topage = (page) => {
-  pageData.currentPage=page
-  searchParams.page=page
-  getList()
+const pageData = reactive({
+    totalRecords: 0,//总记录数
+    pageCount: 0,//总页数
+    currentPage: 1//当前页
+});
+const topage = (page) => {
+    pageData.currentPage = page
+    searchParams.page = page
+    getList()
 }
 
 const searchParams = reactive({
-  keyword:'',
-  formItem:null,
-  page:pageData.currentPage
+    keyword: '',
+    formItem: null,
+    page: pageData.currentPage
 })
 const VisibleDialog = ref(false)
 
 const add = () => {
-  dialogTitle.value = '增加字段'
-  colId.value = 0
-  VisibleDialog.value = true
-  componentId.value = Form
+    dialogTitle.value = '增加字段'
+    colId.value = 0
+    VisibleDialog.value = true
+    componentId.value = Form
 }
 const edit = (id) => {
-  dialogTitle.value = '编辑字段'
-  colId.value = id
-  VisibleDialog.value = true
-  componentId.value = Form
+    dialogTitle.value = '编辑字段'
+    colId.value = id
+    VisibleDialog.value = true
+    componentId.value = Form
 }
 const destory = (id) => {
-  confirms({ text: '确认删除吗？' })
-    .then(async () => {
-      const res = await postData('/cols/delete', { id: id })
-      if (res.code) {
-        alter({ type: 'alter-success', text: res.msg })
-        getList()
-      } else {
-        alter({ type: 'alter-error', text: res.msg })
-      }
-    })
-    .catch((e) => {})
+    confirms({ text: '确认删除吗？' })
+        .then(async () => {
+            const res = await postData('/cols/delete', { id: id })
+            if (res.code) {
+                alter({ type: 'alter-success', text: res.msg })
+                getList()
+            } else {
+                alter({ type: 'alter-error', text: res.msg })
+            }
+        })
+        .catch((e) => { })
 }
 const getList = async () => {
-  const resp = await getData('/cols',searchParams)
-  if (resp.code == 1) {
-    pageData.totalRecords=resp.data.total
-    pageData.pageCount=resp.data.last_page
-    dataList.length = 0
-    resp.data.data.forEach((item) => {
-      dataList.push(item)
-    })
-  }
+    const resp = await getData('/cols', searchParams)
+    if (resp.code == 1) {
+        pageData.totalRecords = resp.data.total
+        pageData.pageCount = resp.data.last_page
+        dataList.length = 0
+        resp.data.data.forEach((item) => {
+            dataList.push(item)
+        })
+    }
 }
 onMounted(async () => {
-  getList()
+    getList()
 })
 </script>

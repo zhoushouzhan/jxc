@@ -2,7 +2,7 @@
     <div class="p-5" v-if="isload">
 
         <div class="text-center">
-            <div class="text-xl px-2">出库单查看</div>
+            <div class="text-xl px-2">销售单查看</div>
         </div>
         <div>
             
@@ -25,7 +25,7 @@
                             <th class="text-center w-20">序号</th>
                             <th class="w-32">图片</th>
                             <th>名称</th>
-                            <th>零售价</th>
+                            <th>销售价</th>
                             <th>数量</th>
                             <th>备注</th>
                         </tr>
@@ -34,7 +34,9 @@
                         <template v-for="(item,index) in res.bill">
                             <tr>
                                 <td class="text-center">{{ index+1 }}</td>
-                                <td><img :src="item.thumbFile" class="w-32 h-32 object-cover" @click="openimg(item.thumbFile)"></td>
+                                <td>
+                                    <img :src="item.thumbFile" class="w-28 h-28 object-cover" v-viewer>
+                                </td>
                                 <td class="space-y-2">
                                     <div>{{ item.title }}</div>
                                     <div>{{ item.code }}</div>
@@ -54,16 +56,14 @@
                 </table>
             </div>
         </div>
-        <div class="flex justify-center py-2 space-x-2 mt-3">
-            <button class="yp-button yp-button-orange rounded" type="button" @click="goback">
-                <i class="ri-arrow-go-back-fill ri-lg pr-1"></i>
+        <div class="py-2 space-x-2 mt-3 text-center">
+            <button class="btn btn-chen" type="button" @click="goback">
                 返回
             </button>
-            <button class="yp-button yp-button-black rounded">
+            <button class="btn btn-zi">
                 <i class="ri-barcode-line ri-lg pr-1"></i>
                 打印
             </button>
-
         </div>
     </div>
 </template>
@@ -100,10 +100,6 @@
     const goback=()=>{
         emits('jumpCom',{to:'list'})
     }
-    const openimg=(src)=>{
-        window.open(src)
-    }
-
     //导出选中项目
     const ypexport = async() => {
         confirms({ text: '确定生成吗？' })

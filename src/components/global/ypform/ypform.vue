@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-white m-1 text-sm">
-    <div class="flex border-b rounded-t-md">
+  <div class="text-sm">
+    <div class="flex border-b">
       <template v-for="(item,index) in group" :key="index">
-        <div class="px-3 py-2 hover:border-b border-gray-700 cursor-pointer hover:text-red-500" :class="{'border-b border-gray-700 text-blue-600':index==tabIndex}" @click="tabIndex=index">
+        <div class="p-3 hover:border-b border-blue-600 cursor-pointer hover:text-blue-600" :class="{'border-b border-blue-600 text-blue-600':index==tabIndex}" @click="tabIndex=index">
           {{item}}
         </div>
       </template>
@@ -10,12 +10,16 @@
     <template v-for="(item,index) in group" :key="index">
       <div v-show="tabIndex==index" class="py-4">
         <template v-for="(col,k) in mod.modcolumn" :key="k">
-          <cols :col="col" v-model="postParams[col.name]" :row="postParams" v-if="col.groupindex==index&&['none','hidden'].indexOf(col.formitem)<0&&col_display(col.extends)" />
+          <cols 
+          :col="col" v-model="postParams[col.name]" 
+          :row="postParams" 
+          v-if="col.groupindex==index&&['none','hidden'].indexOf(col.formitem)<0&&col_display(col.extends)"
+          />
         </template>
       </div>
     </template>
     <div class="text-center">
-      <button class="yp-button yp-button-red rounded" @click="submit()">提交</button>
+      <button class="btn btn-hong" @click="submit()">提交</button>
     </div>
   </div>
 </template>

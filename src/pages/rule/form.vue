@@ -64,12 +64,10 @@
     </div>
 
     <div class="flex justify-center py-3 space-x-2">
-      <button class="yp-button yp-button-orange rounded" type="button" @click="save">
-        <i class="ri-save-line ri-lg pr-1"></i>
+      <button class="btn btn-hong" type="button" @click="save">
         保存
       </button>
-      <button class="yp-button yp-button-gray rounded" type="button" @click="reset">
-        <i class="ri-format-clear ri-lg pr-1"></i>
+      <button class="btn" type="button" @click="reset">
         重置
       </button>
     </div>
